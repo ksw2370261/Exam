@@ -1,0 +1,179 @@
+/* リセットCSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.header-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e6f1ff;
+}
+
+.login-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: left;
+    margin-left: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 15px;
+    margin-left: 150px;
+    border-right: 1px solid #c0c0c0;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sidebar nav ul li a:hover {
+    color: #007bff;
+}
+
+.sidebar nav ul li ul {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+
+.sidebar nav ul li ul li {
+    margin-bottom: 5px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+footer {
+    background: #d3d3d3;
+    width: 100%;
+    max-width: 1000px;
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    margin: 20px auto 0 auto; /* 上部に余白を追加し、下部は自動 */
+    border-radius: 5px;
+}
+
+.right {
+    margin-right: 20px;
+}
+
+.field {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* 追加スタイル */
+/* メニュー項目の背景色を灰色に */
+.main-content h2 {
+    background-color: #d3d3d3;
+    padding: 10px;
+    border-radius: 0px;
+    width: 85%;
+}
+
+/* メニューコンテナのスタイル */
+.menu-container {
+    display: flex;
+    justify-content: space-around; /* 水平方向にスペースを均等に配置 */
+    gap: 20px; /* 項目間の間隔を設定 */
+    margin-top: 20px; /* 上部に余白を追加 */
+    width: 83%;
+}
+
+.menu-item {
+    flex: 1; /* 各項目を均等に配置 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 10rem; /* 高さを固定 */
+    text-align: center;
+    background-color: #f0f0f0; /* 灰色の背景 */
+}
+
+/* メニューアイテムのリンクのスタイルを設定 */
+.menu-item a {
+    text-decoration: none;
+    color: #007bff; /* 青色の文字 */
+    font-size: 1.2em;
+    border-bottom: 1.5px solid #007bff; /* 青色の下線 */
+    line-height: 0.8; /* 下線を文字に近づけるための行の高さを設定 */
+    padding-bottom: 2px; /* 下線を文字に近づけるための下部パディングを調整 */
+}
+
+/* メニューアイテムのリンクのホバースタイル */
+.menu-item a:hover {
+    color: #0056b3; /* 青色の文字を濃く */
+    border-bottom-color: #0056b3; /* 青色の下線を濃く */
+}
+
+/* サブメニューのスタイル */
+.menu-item-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-item-2 a {
+    margin-top: 5px;
+}
+
+/* カラーバリエーション */
+.menu-item-1 {
+    background-color: #f08080;
+}
+
+.menu-item-2 {
+    background-color: #7fffd4;
+}
+
+.menu-item-3 {
+    background-color: #e6e6fa;
+}
