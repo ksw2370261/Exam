@@ -19,7 +19,7 @@
             <nav>
                 <ul>
                 <br>
-                    <li><a href="menu.jsp">メニュー</a></li>
+                    <li><a href="Menu.action">メニュー</a></li>
                     <li><a href="StudentList.action">学生管理</a></li>
                     <li>成績管理
                         <ul>
