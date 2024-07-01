@@ -6,10 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import bean.Teacher;
 import dao.LoginDAO2;
-import tool.ActionL;
+import tool.Action;
 
-public class LoginAction extends ActionL{
-	public String execute(
+public class LoginAction extends Action{
+	public void execute(
 	HttpServletRequest request, HttpServletResponse response
 	)throws Exception{
 		HttpSession session=request.getSession();
@@ -21,8 +21,7 @@ public class LoginAction extends ActionL{
 
 		if(Login!=null){
 			session.setAttribute("login", Login);
-			request.getRequestDispatcher("base.jsp").forward(request, response);
+			request.getRequestDispatcher("menu.jsp").forward(request, response);
 		}
-		return "login-error.jsp";
 	}
 }
