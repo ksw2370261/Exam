@@ -43,24 +43,24 @@ public class StudentListAction extends Action {
 
 			//DBからデータ取得 3
 			//ログインユーザーの学校コードをもとにクラス番号の一覧を取得
-			System.out.println(teacher.getSchool());
-			List<String> list = cNumDao.filter(teacher.getSchool());
+			System.out.println(teacher.getSchool_cd());
+			List<String> list = cNumDao.filter(teacher.getSchool_cd());
 
 			if (entYear != 0 && !classNum.equals("0")) {
 				//入学年度とクラス番号を指定
-				students = sDao.filter(teacher.getSchool(), entYear, classNum, isAttend);
+				students = sDao.filter(teacher.getSchool_cd(), entYear, classNum, isAttend);
 			} else if (entYear != 0 && classNum.equals("0")) {
 				//入学年度のみ指定
-				students = sDao.filter(teacher.getSchool(), entYear, isAttend);
+				students = sDao.filter(teacher.getSchool_cd(), entYear, isAttend);
 			} else if (entYear == 0 && classNum == null || entYear == 0 && classNum.equals("0")) {
 				//指定なしの場合
 				//全学生情報を取得
-				students = sDao.filter(teacher.getSchool(), isAttend);
+				students = sDao.filter(teacher.getSchool_cd(), isAttend);
 			} else {
 				errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
 				req.setAttribute("errors", errors);
 				//全学生情報を取得
-				students = sDao.filter(teacher.getSchool(), isAttend);
+				students = sDao.filter(teacher.getSchool_cd(), isAttend);
 			}
 
 			if (entYearStr != null) {

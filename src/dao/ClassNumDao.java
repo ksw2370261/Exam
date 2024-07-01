@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ClassNumDao extends Dao {
 
-	private String baseSql = "select * from class_num where class_num=? ";
+	private String baseSql = "select * from class_num where class_num=?";
 
 	public List<String> filter(String school) throws Exception {
 		List<String> list = new ArrayList<>();

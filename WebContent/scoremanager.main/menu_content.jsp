@@ -12,6 +12,6 @@
         <a href="#">成績参照</a>
     </div>
     <div class="menu-item menu-item-3">
-        <a href="#">科目管理</a>
+        <a href="SubjectList.action">科目管理</a>
     </div>
 </div>
