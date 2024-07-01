@@ -12,6 +12,10 @@
  </head>
  <header>
   <div class="header-container"><h1 class="title">得点管理システム</h1></div>
+  <div class="user-info">
+ ${Teacher.Name}様。
+      <a href="logout-in.jsp">ログアウト</a>
+  </div>
  </header>
 <body>
     <div class="container">

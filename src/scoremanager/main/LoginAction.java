@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Login;
-import dao.LoginDAO;
+import bean.Teacher;
+import dao.LoginDAO2;
 import tool.Action;
 
 public class LoginAction extends Action{
@@ -14,14 +14,14 @@ public class LoginAction extends Action{
 	)throws Exception{
 		HttpSession session=request.getSession();
 
-		String login=request.getParameter("login");
+		String id=request.getParameter("id");
 		String password=request.getParameter("password");
-		LoginDAO dao=new LoginDAO();
-		Login Login=dao.search(login, password);
+		LoginDAO2 dao=new LoginDAO2();
+		Teacher Login=dao.search(id, password);
 
 		if(Login!=null){
 			session.setAttribute("login", Login);
-			return "menu.jsp";
+			request.getRequestDispatcher("base.jsp").forward(request, response);
 		}
 		return "login-error.jsp";
 	}
