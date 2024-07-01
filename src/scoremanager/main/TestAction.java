@@ -10,9 +10,9 @@ import bean.Student;
 import bean.Subject;
 import dao.SubjectDAO;
 import dao.TestDAO;
-import tool.Action;
+import tool.ActionL;
 
-public class TestAction extends Action {
+public class TestAction extends ActionL {
     public String execute(
             HttpServletRequest request, HttpServletResponse response
             ) throws Exception {

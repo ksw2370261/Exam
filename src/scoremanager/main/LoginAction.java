@@ -6,9 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import bean.Login;
 import dao.LoginDAO;
-import tool.Action;
+import tool.ActionL;
 
-public class LoginAction extends Action{
+public class LoginAction extends ActionL{
 	public String execute(
 	HttpServletRequest request, HttpServletResponse response
 	)throws Exception{
