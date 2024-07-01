@@ -13,8 +13,12 @@
  <header>
   <div class="header-container"><h1 class="title">得点管理システム</h1></div>
   <div class="user-info">
- ${Teacher.Name}様。
+  <c:choose>
+      <c:when test="${not empty sessionScope.login}">
+        ${sessionScope.login.name}様
       <a href="logout-in.jsp">ログアウト</a>
+       </c:when>
+       </c:choose>
   </div>
  </header>
 <body>
@@ -48,3 +52,6 @@
      大原学園</p>
  </footer>
 </html>
+
+
+

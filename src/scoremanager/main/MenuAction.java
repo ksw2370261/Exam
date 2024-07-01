@@ -7,9 +7,8 @@ import tool.Action;
 
 public class MenuAction extends Action {
 
-	public String execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		req.getRequestDispatcher("menu.jsp").forward(req, res);
-		return null;
 	}
 }

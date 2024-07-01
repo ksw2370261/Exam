@@ -22,6 +22,8 @@ public class LoginAction extends Action{
 		if(Login!=null){
 			session.setAttribute("login", Login);
 			request.getRequestDispatcher("menu.jsp").forward(request, response);
+		}else{
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-	}
+     }
 }
