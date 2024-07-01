@@ -11,11 +11,11 @@
   <div class="container mt-5">
     <h2>学生情報登録</h2>
 
-    <form action="studentCreateExecute" method="post">
+    <form action="studentCreateExecute" method="post" onsubmit="return validateForm()">
       <!-- 入学年度 -->
       <div class="form-group">
         <label for="ent_year">入学年度</label>
-        <select class="form-control" id="ent_year" name="ent_year">
+        <select class="form-control" id="ent_year" name="ent_year" required>
           <!-- 今年を基準に10年前から10年後までの年リストを生成する -->
           <option value="">-------</option>
           <script>
@@ -25,6 +25,7 @@
             }
           </script>
         </select>
+        <div id="ent_year_error" class="text-danger"></div> <!-- エラーメッセージ表示用の要素 -->
       </div>
 
       <!-- 学生番号 -->
@@ -62,5 +63,17 @@
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function validateForm() {
+      var entYear = document.getElementById("ent_year").value;
+      if (entYear === "" || entYear === "-------") {
+        document.getElementById("ent_year_error").textContent = "入学年度を入力して下さい。";
+        return false; // フォームの送信を中止
+      } else {
+        document.getElementById("ent_year_error").textContent = ""; // エラーメッセージをクリア
+      }
+      return true; // フォームを送信
+    }
+  </script>
 </body>
 </html>
