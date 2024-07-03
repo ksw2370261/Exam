@@ -1,18 +1,29 @@
 package scoremanager.main;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns={"/scoremanager.main/LoginExecuteAction"})
-public class LoginExecuteAction extends HttpServlet {
+import bean.Teacher;
+import dao.LoginDAO2;
+import tool.Action;
 
-	public void doGet (HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
-		request.getRequestDispatcher("login-in.jsp").forward(request, response);
-	}
+public class LoginExecuteAction extends Action{
+	public void execute(
+	HttpServletRequest request, HttpServletResponse response
+	)throws Exception{
+		HttpSession session=request.getSession();
+
+		String id=request.getParameter("id");
+		String password=request.getParameter("password");
+		LoginDAO2 dao=new LoginDAO2();
+		Teacher Login=dao.search(id, password);
+
+		if(Login!=null){
+			session.setAttribute("login", Login);
+			request.getRequestDispatcher("menu.jsp").forward(request, response);
+		}else{
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
+     }
 }
