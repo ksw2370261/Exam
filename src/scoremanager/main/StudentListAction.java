@@ -22,7 +22,7 @@ public class StudentListAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 			HttpSession session = req.getSession();
-			Teacher teacher = (Teacher)session.getAttribute("user");
+			Teacher teacher = (Teacher)session.getAttribute("login");
 
 			String entYearStr=""; //入力された入学年度
 			String classNum = ""; //入力されたクラス番号
@@ -43,7 +43,7 @@ public class StudentListAction extends Action {
 
 			//DBからデータ取得 3
 			//ログインユーザーの学校コードをもとにクラス番号の一覧を取得
-			System.out.println(teacher.getSchool_cd());
+			System.out.println(teacher);
 			List<String> list = cNumDao.filter(teacher.getSchool_cd());
 
 			if (entYear != 0 && !classNum.equals("0")) {

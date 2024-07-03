@@ -22,15 +22,13 @@ public class StudentDao extends Dao {
 			statement.setString(1, no);
 			ResultSet rSet = statement.executeQuery();
 
-			SchoolDao schoolDao = new SchoolDao();
-
 			if (rSet.next()) {
 				student.setNo(rSet.getString("no"));
 				student.setName(rSet.getString("name"));
 				student.setEntYear(rSet.getInt("ent_year"));
 				student.setClassNum(rSet.getString("class_num"));
 				student.setAttend(rSet.getBoolean("is_attend"));
-				student.setSchool(SchoolDao.get(rSet.getString("school_cd")));
+				student.setSchool(rSet.getString("school_cd"));
 			} else {
 				student = null;
 			}
@@ -163,7 +161,6 @@ public class StudentDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet rSet = null;
-		String condition = "and ent_year=? ";
 		String order = " order by no asc";
 
 		String conditionIsAttend = "";
@@ -206,12 +203,13 @@ public class StudentDao extends Dao {
 		try {
 			Student old = get(student.getNo());
 			if (old == null) {
+				statement = connection.prepareStatement("insert into student(no, name, ent_year. class_num, is_attend, school_cd) values(?, ?, ?, ?, ?, ?)");
 				statement.setString(1, student.getNo());
 				statement.setString(2, student.getName());
 				statement.setInt(3, student.getEntYear());
 				statement.setString(4, student.getClassNum());
 				statement.setBoolean(5, student.isAttend());
-				statement.setString(6, student.getSchool().getCd());
+				statement.setString(6, student.getSchool());
 			} else {
 				statement = connection.prepareStatement("update student set nama=?, ent_year=?, class_num=?, is_attend=? where no=?");
 				statement.setString(1, student.getName());
