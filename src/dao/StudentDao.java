@@ -187,4 +187,20 @@ public class StudentDao extends Dao {
         }
         return student;
     }
+
+    public void update(Student student) throws Exception {
+        String sql = "UPDATE student SET name = ?, ent_year = ?, class_num = ?, is_attend = ? WHERE no = ?";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, student.getName());
+            ps.setInt(2, student.getEntYear());
+            ps.setString(3, student.getClassNum());
+            ps.setBoolean(4, student.isAttend());
+            ps.setString(5, student.getNo());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
 }
