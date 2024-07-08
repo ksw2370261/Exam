@@ -1,22 +1,35 @@
 package scoremanager.main;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/studentCreate")
-public class StudentCreateAction extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+import bean.Teacher;
+import dao.ClassNumDao;
+import tool.Action;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // JSPへのフォワード
-        request.getRequestDispatcher("/student_create.jsp").forward(request, response);
-    }
+public class StudentCreateAction extends Action {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        HttpSession session = req.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("login");
+
+        ClassNumDao cNumDao = new ClassNumDao();
+        List<String> classNumSet = cNumDao.filter(teacher.getSchool_cd());
+
+        int currentYear = java.time.LocalDate.now().getYear();
+        List<Integer> entYearSet = new ArrayList<>();
+        for (int i = currentYear - 10; i <= currentYear; i++) {
+            entYearSet.add(i);
+        }
+
+        req.setAttribute("class_num_set", classNumSet);
+        req.setAttribute("ent_year_set", entYearSet);
+
+        req.getRequestDispatcher("student_create.jsp").forward(req, res);
     }
 }

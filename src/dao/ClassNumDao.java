@@ -13,44 +13,18 @@ public class ClassNumDao extends Dao {
 
     public List<String> filter(String school) throws Exception {
         List<String> classNums = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
 
-        try {
-            connection = getConnection();
-            statement = connection.prepareStatement(baseSql);
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(baseSql)) {
             statement.setString(1, school);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                String classNum = resultSet.getString("class_num");
-                classNums.add(classNum);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String classNum = resultSet.getString("class_num");
+                    classNums.add(classNum);
+                }
             }
         } catch (SQLException e) {
             throw e;
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return classNums;
