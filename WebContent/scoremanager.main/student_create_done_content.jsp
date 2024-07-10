@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <section class="me-4">
-        <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生登録完了</h2>
+        <h2 class="h3 mb-3 fw-norma bg-light bg-opacity-10 py-2 px-4">学生登録完了</h2>
         <p>学生登録が完了しました。</p>
         <a href="StudentCreateExecute.action" class="btn btn-secondary">戻る</a>
         <a href="StudentList.action" class="btn btn-primary">学生一覧</a>
