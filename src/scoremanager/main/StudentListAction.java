@@ -31,7 +31,7 @@ public class StudentListAction extends Action {
 			boolean isAttend = false; //在学フラグ
 			List<Student> students = null; //学生リスト
 			LocalDate todaysDate = LocalDate.now(); //LocalDateインスタンスを取得
-			int year = todaysDate.getYear(); //げんざいの年を取得
+			int year = todaysDate.getYear(); //現在の年を取得
 			StudentDao sDao = new StudentDao(); //学生Dao
 			ClassNumDao cNumDao = new ClassNumDao(); //クラス番号Daoを初期化
 			Map<String, String> errors = new HashMap<>(); //エラーメッセージ
