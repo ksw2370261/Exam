@@ -27,12 +27,11 @@ header h1 {
 
 .title-container {
     display: flex;
-    justify-content: space-between; /* タイトルとユーザー情報を両端に配置 */
     align-items: center;
+    justify-content: space-between; /* タイトルとユーザー情報を両端に配置 */
 }
 
 .user-info {
-    margin-left: auto;
     text-align: right;
 }
 
