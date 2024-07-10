@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <section class="me-4">
-        <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生情報変更</h2>
+        <h2 class="h3 mb-3 fw-norma bg-light bg-opacity-10 py-2 px-4">学生情報変更</h2>
         <form action="StudentUpdateExecute.action" method="post">
             <div class="mb-3">
                 <label for="entYear" class="form-label">入学年度</label>
@@ -49,7 +49,8 @@
                 <div class="text-danger mt-2">${errors['error']}</div>
             </c:if>
             <button type="submit" class="btn btn-primary">変更</button>
-            <a href="StudentList.action" class="btn btn-secondary ms-2">戻る</a>
+            <br>
+            <a href="StudentList.action">戻る</a>
         </form>
     </section>
 </body>

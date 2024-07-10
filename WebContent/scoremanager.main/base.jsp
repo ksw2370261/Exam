@@ -47,7 +47,7 @@
     <div class="main-content">
         <jsp:include page="${param.contentPage}" />
     </div>
-</div>
+ </div>
  <footer>
      <p>&copy; 2023 TIC
      <br>

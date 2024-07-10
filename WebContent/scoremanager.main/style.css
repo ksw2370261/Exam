@@ -59,7 +59,7 @@ body {
 .sidebar {
     width: 200px;
     padding: 15px;
-    margin-left: 150px;
+    margin-left: 170px;
     border-right: 1px solid #c0c0c0;
 }
 
@@ -97,7 +97,7 @@ body {
 }
 
 footer {
-    background: #d3d3d3;
+    background: #efefef;
     width: 100%;
     max-width: 1000px;
     color: #333;
@@ -117,7 +117,7 @@ footer {
 }
 
 .main-content h2 {
-    background-color: #d3d3d3;
+    background-color: #efefef;
     padding: 10px;
     border-radius: 0px;
     width: 85%;

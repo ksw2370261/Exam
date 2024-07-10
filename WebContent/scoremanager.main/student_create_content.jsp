@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <section class="me-4">
-        <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生登録</h2>
+        <h2 class="h3 mb-3 fw-norma bg-light bg-opacity-10 py-2 px-4">学生登録</h2>
         <form action="StudentCreateExecute.action" method="post">
             <div class="mb-3">
                 <label for="entYear" class="form-label">入学年度</label>
@@ -58,8 +58,9 @@
             <c:if test="${not empty errors['error']}">
                 <div class="text-danger mt-2">${errors['error']}</div>
             </c:if>
-            <button type="submit" class="btn btn-primary">登録して終了</button>
-            <a href="StudentList.action" class="btn btn-secondary">戻る</a>
+            <button type="submit" class="btn btn-secondary">登録して終了</button>
+            <br>
+            <a href="StudentList.action">戻る</a>
         </form>
     </section>
 </body>

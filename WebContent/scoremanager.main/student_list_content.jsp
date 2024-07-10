@@ -12,7 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 
 <section class="me-4">
-    <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生管理</h2>
+    <h2 class="h3 mb-3 fw-norma bg-light bg-opacity-10 py-2 px-4">学生管理</h2>
     <div class="my-2 text-end px-4">
         <a href="StudentCreate.action">新規登録</a>
     </div>
@@ -37,12 +37,11 @@
                 </select>
             </div>
             <div class="col-2 form-check text-center">
-                <label class="form-check-label" for="student-f3-check">在学中
-                    <input class="form-check-input" type="checkbox"
-                    id="student-f3-check" name="f3" value="t"
-                    <c:if test="${!empty f3}">checked</c:if> />
-                </label>
-            </div>
+    <input class="form-check-input" type="checkbox" id="student-f3-check" name="f3" value="t"
+           <c:if test="${!empty f3}">checked</c:if> />
+    <label class="form-check-label ml-1" for="student-f3-check">在学中</label>
+</div>
+
             <div class="col-2 text-center">
                 <button class="btn btn-secondary" id="filter-button">絞込み</button>
             </div>
