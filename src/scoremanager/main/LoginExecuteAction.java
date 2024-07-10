@@ -8,20 +8,32 @@ import bean.Teacher;
 import dao.LoginDAO2;
 import tool.Action;
 
-public class LoginExecuteAction extends Action{
-	public void execute(
-	HttpServletRequest request, HttpServletResponse response
-	)throws Exception{
-		HttpSession session=request.getSession();
+public class LoginExecuteAction extends Action {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpSession session = request.getSession();
 
-		String id=request.getParameter("id");
-		String password=request.getParameter("password");
-		LoginDAO2 dao=new LoginDAO2();
-		Teacher Login=dao.search(id, password);
+        String id = request.getParameter("id");
+        String password = request.getParameter("password");
 
-		if(Login!=null){
-			session.setAttribute("login", Login);
-			request.getRequestDispatcher("menu.jsp").forward(request, response);
-		}
-     }
+        // 入力チェック
+        if (id == null || password == null || id.isEmpty() || password.isEmpty()) {
+            request.setAttribute("error", "IDまたはパスワードが入力されていません。");
+            request.getRequestDispatcher("login-in.jsp").forward(request, response);
+            return;
+        }
+
+        // DAOのインスタンス生成
+        LoginDAO2 dao = new LoginDAO2();
+        Teacher login = dao.search(id, password);
+
+        if (login != null) {
+            // ログイン成功時の処理
+            session.setAttribute("login", login);
+            request.getRequestDispatcher("menu.jsp").forward(request, response);
+        } else {
+            // ログイン失敗時の処理
+            request.setAttribute("error", "IDまたはパスワードが間違っています。");
+            request.getRequestDispatcher("login-in.jsp").forward(request, response);
+        }
+    }
 }
