@@ -37,6 +37,14 @@
             </c:forEach>
         </select>
 
+        <!-- 回数 -->
+        <label for="no">回数</label>
+        <select id="no" name="no">
+            <c:forEach var="test" items="${testList}">
+                <option value="${test.no}" ${test.no == param.no ? 'selected' : ''}>${test.no}</option>
+            </c:forEach>
+        </select>
+
         <button type="submit">検索</button>
     </form>
 

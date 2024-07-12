@@ -34,9 +34,11 @@ public class TestRegistAction extends Action {
             String entYearStr = request.getParameter("entYear");
             String classNum = request.getParameter("classNum");
             String subjectCd = request.getParameter("subjectCd");
+            String noStr = request.getParameter("no");
 
             // 検索条件をパース
-            int entYear = (entYearStr != null) ? Integer.parseInt(entYearStr) : 0;
+            int entYear = (entYearStr != null && !entYearStr.isEmpty()) ? Integer.parseInt(entYearStr) : 0;
+            int no = (noStr != null && !noStr.isEmpty()) ? Integer.parseInt(noStr) : 0;
             Subject subject = subjectList.stream().filter(s -> s.getCd().equals(subjectCd)).findFirst().orElse(null);
             School school = new School();
             school.setCd(teacher.getSchool_cd());
@@ -45,6 +47,7 @@ public class TestRegistAction extends Action {
             System.out.println("entYear: " + entYear);
             System.out.println("classNum: " + classNum);
             System.out.println("subjectCd: " + subjectCd);
+            System.out.println("no: " + no);
             if (subject != null) {
                 System.out.println("subject.getCd(): " + subject.getCd());
             } else {
@@ -53,7 +56,7 @@ public class TestRegistAction extends Action {
 
             // 検索結果を取得
             TestDao testDao = new TestDao();
-            List<Test> testList = testDao.filter(entYear, classNum, subject, 0, school);
+            List<Test> testList = testDao.filter(entYear, classNum, subject, no, school);
 
             // リクエストにデータを格納
             request.setAttribute("subjectList", subjectList);
