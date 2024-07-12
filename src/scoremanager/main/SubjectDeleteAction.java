@@ -2,7 +2,6 @@ package scoremanager.main;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +24,7 @@ public class SubjectDeleteAction extends HttpServlet {
         request.setAttribute("subject", subject);
 
         // 科目削除確認JSPにフォワード
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/subject_delete.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("subject_delete.jsp").forward(request, response);
     }
 
     // 実際のメソッドはDBやサービスから科目の詳細を取得するものとする
