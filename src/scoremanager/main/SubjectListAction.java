@@ -1,14 +1,42 @@
 package scoremanager.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.Subject;
+import bean.Teacher;
+import dao.SubjectDao;
 import tool.Action;
 
 public class SubjectListAction extends Action {
 
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // セッションから教師オブジェクトを取得
+        Teacher teacher = Util.getUser(request);
 
-		req.getRequestDispatcher("subject_list.jsp").forward(req, res);
-	}
+        // 科目DAOを通じてデータベースから科目リストを取得
+        SubjectDao subjectDao = new SubjectDao();
+        List<Subject> subject = null;
+
+        try {
+            subject = subjectDao.filter(teacher.getSchool_cd());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // エラーメッセージをリクエストに設定
+            request.setAttribute("errorMessage", "科目リストの取得に失敗しました。");
+        }
+
+        // リクエストに科目リストを設定
+     // リクエストに科目リストを設定
+        request.setAttribute("subjects", subject != null ? subject : new ArrayList<>());
+
+        // subject_list.jsp にフォワード
+        RequestDispatcher dispatcher = request.getRequestDispatcher("subject_list.jsp");
+        dispatcher.forward(request, response);
+    }
 }

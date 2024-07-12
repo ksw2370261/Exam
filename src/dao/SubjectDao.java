@@ -11,7 +11,7 @@ import bean.Subject; // Subjectクラスのパッケージに合わせてイン�
 
 public class SubjectDao extends Dao {
 
-    private String baseSql = "select * from subjects where cd=? and school_cd=?";
+    private String baseSql = "select * from subject where cd=? and school_cd=? and name=?";
 
     public Subject get(String cd, String school) throws Exception {
         Subject subject = null;
@@ -66,7 +66,7 @@ public class SubjectDao extends Dao {
 
     public List<Subject> filter(String school) throws Exception {
         List<Subject> subjects = new ArrayList<>();
-        String sql = "select * from subjects where school_cd=?";
+        String sql = "select * from subject where school_cd=?";
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -117,7 +117,7 @@ public class SubjectDao extends Dao {
     }
 
     public boolean save(Subject subject) throws Exception {
-        String sql = "insert into subjects (cd, school_cd, name) values (?, ?, ?)";
+        String sql = "insert into subject (cd, school_cd, name) values (?, ?, ?)";
         Connection connection = null;
         PreparedStatement stmt = null;
 
@@ -153,7 +153,7 @@ public class SubjectDao extends Dao {
     }
 
     public boolean delete(Subject subject) throws Exception {
-        String sql = "delete from subjects where cd=? and school_cd=?";
+        String sql = "delete from subject where cd=? and school_cd=?";
         Connection connection = null;
         PreparedStatement stmt = null;
 
