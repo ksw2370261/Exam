@@ -5,4 +5,5 @@
 <c:import url="base.jsp">
     <c:param name="title" value="得点管理システム - ログイン" />
     <c:param name="contentPage" value="login-in_content.jsp" />
+    <c:param name="showSidebar" value="false" />
 </c:import>

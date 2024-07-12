@@ -12,10 +12,9 @@
 
 <section class="me-4">
     <h2 class="h3 mb-3 fw-normal bg-light bg-opacity-10 py-2 px-4">科目管理</h2>
-    <div class="my-2 text-end px-4">
-        <!-- 新規登録ボタンなどのコンポーネント -->
+    <div style="text-align: right; padding-right: 100px;">
         <a href="SubjectCreate.action">新規登録</a>
-    </div>
+	</div>
 
     <c:if test="${not empty errorMessage}">
         <!-- エラーメッセージの表示 -->
@@ -31,12 +30,11 @@
     <!-- 科目リストの表示 -->
     <c:choose>
     <c:when test="${not empty subjects}">
-        <div>検索結果: ${subjects.size()}件</div>
         <table class="table table-hover">
             <tr>
                 <th>科目コード</th>
                 <th>科目名</th>
-                <th>操作</th>
+                <th> <th>
             </tr>
             <c:forEach var="subject" items="${subjects}">
                 <tr>
@@ -44,6 +42,8 @@
                     <td>${subject.name}</td>
                     <td>
                         <a href="SubjectUpdate.action?cd=${subject.cd}&school_cd=${subject.school_CD}">変更</a>
+                    </td>
+                    <td>
                         <a href="SubjectDelete.action?cd=${subject.cd}&school_cd=${subject.school_CD}">削除</a>
                     </td>
                 </tr>
