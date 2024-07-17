@@ -11,9 +11,9 @@ import bean.Subject; // Subjectクラスのパッケージに合わせてイン�
 
 public class SubjectDao extends Dao {
 
-    private String baseSql = "select * from subject where cd=? and school_cd=? and name=?";
+    private String baseSql = "select * from subject where cd=? and school_cd=?";
 
-    public Subject get(String cd, String school) throws Exception {
+    public Subject get(String cd, String school_cd) throws Exception {
         Subject subject = null;
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -23,7 +23,7 @@ public class SubjectDao extends Dao {
             connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
             stmt = connection.prepareStatement(baseSql);
             stmt.setString(1, cd);
-            stmt.setString(2, school);
+            stmt.setString(2, school_cd);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -31,7 +31,6 @@ public class SubjectDao extends Dao {
                 subject.setCd(rs.getString("cd"));
                 subject.setSchool_CD(rs.getString("school_cd"));
                 subject.setName(rs.getString("name"));
-                // 他のフィールドも必要に応じて設定
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +81,6 @@ public class SubjectDao extends Dao {
                 subject.setCd(rs.getString("cd"));
                 subject.setSchool_CD(rs.getString("school_cd"));
                 subject.setName(rs.getString("name"));
-                // 他のフィールドも必要に応じて設定
                 subjects.add(subject);
             }
         } catch (SQLException e) {

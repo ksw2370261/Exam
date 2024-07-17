@@ -14,8 +14,7 @@
     <h2 class="h3 mb-3 fw-normal bg-light bg-opacity-10 py-2 px-4">科目情報削除</h2>
 
     <div class="mt-3">
-        <p>以下の科目を削除してもよろしいですか？</p>
-        <p>${subject.name}（${subject.cd}）</p>
+        <p>「${subject.name}（${subject.cd}）」を削除してもよろしいですか</p>
     </div>
 
     <div class="mt-3">
