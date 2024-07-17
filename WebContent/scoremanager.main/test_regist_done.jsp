@@ -24,7 +24,7 @@
 <%
             String message = (String) request.getAttribute("message");
             if (message == null) {
-                message = "登録";
+                message = "登録が完了しました";
             }
             out.print(message);
         %>
