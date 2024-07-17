@@ -18,7 +18,7 @@
                 <c:choose>
                     <c:when test="${not empty sessionScope.login}">
                         ${sessionScope.login.name}様
-                        <a href="Logout.action">ログアウト</a>
+                        <a href="Logout.action" style="text-decoration: underline;">ログアウト</a>
                     </c:when>
                 </c:choose>
             </div>

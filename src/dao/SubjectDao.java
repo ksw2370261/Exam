@@ -156,7 +156,7 @@ public class SubjectDao extends Dao {
         PreparedStatement stmt = null;
 
         try {
-            connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
+            connection = getConnection(); // データベース接続を取得
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, subject.getCd());
             stmt.setString(2, subject.getSchool_CD());
@@ -184,4 +184,5 @@ public class SubjectDao extends Dao {
             }
         }
     }
+
 }

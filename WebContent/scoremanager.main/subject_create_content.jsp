@@ -24,7 +24,9 @@
         <c:if test="${not empty error}">
             <div class="text-danger mt-2">${error}</div>
         </c:if>
-        <button type="submit" class="btn btn-secondary">登録して終了</button>
+        <button type="submit" class="btn btn-primary">登録</button>
+		<br>
+		<a href="SubjectList.action" style="text-decoration: underline;">戻る</a>
     </form>
 </section>
 </body>

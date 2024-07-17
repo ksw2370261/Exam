@@ -73,12 +73,14 @@ body {
 }
 
 .sidebar nav ul li a {
-    text-decoration: none;
+    text-decoration: underline; /* 下線を追加 */
+    text-decoration-color: #007bff; /* 下線の色を青色に設定 */
+    color: #007bff; /* 文字色を青色に設定 */
     font-size: 16px;
 }
 
 .sidebar nav ul li a:hover {
-    color: #007bff;
+    color: #0056b3; /* ホバー時の文字色を濃い青色に設定 */
 }
 
 .sidebar nav ul li ul {
@@ -179,4 +181,19 @@ footer {
 .menu-item-3 {
     background-color: #e6e6fa;
 }
+
+.delete_comp {
+    background-color: #d1e7dd; /* 薄緑の色 */
+    padding: 10px; /* 適切な余白を設定 */
+    text-align: center; /* テキストを中央揃え */
+    line-height: 1; /* 行の高さを調整 */
+    max-width: 595px; /* 最大幅を設定 */
+}
+
+.delete_comp p {
+    margin: 0; /* デフォルトの余白をリセット */
+}
+
+
+
 

@@ -14,12 +14,14 @@
 <section class="me-4">
     <h2 class="h3 mb-3 fw-normal bg-light bg-opacity-10 py-2 px-4">科目情報削除</h2>
 
-    <div class="mt-3">
-        <p>削除が完了しました</p>
-    </div>
+    <div class="delete_comp">
+    	<p>削除が完了しました</p>
+	</div>
+
+
 
     <div class="mt-3">
-        <a href="SubjectList.action" class="btn btn-link">科目一覧</a>
+        <a href="SubjectList.action" style="text-decoration: underline;">戻る</a>
     </div>
 
 </section>
