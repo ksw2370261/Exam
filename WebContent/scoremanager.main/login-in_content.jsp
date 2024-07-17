@@ -7,7 +7,7 @@
 
     <!-- エラーメッセージをタイトルの下に表示 -->
     <c:if test="${not empty error}">
-        <p style="color:red;">${error}</p>
+        <p style="color:black;">${error}</p>
     </c:if>
 
     <p>ID<input type="text" name="id" size="20" placeholder="id" maxlength="20" pattern="[\x21-\x7E]*" title="半角でご入力ください" required></p> <!-- No.2 ログインID -->
