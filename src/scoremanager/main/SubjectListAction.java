@@ -21,10 +21,10 @@ public class SubjectListAction extends Action {
 
         // 科目DAOを通じてデータベースから科目リストを取得
         SubjectDao subjectDao = new SubjectDao();
-        List<Subject> subject = null;
+        List<Subject> subjects = new ArrayList<>();
 
         try {
-            subject = subjectDao.filter(teacher.getSchool_cd());
+            subjects = subjectDao.filter(teacher.getSchool_cd());
         } catch (Exception e) {
             e.printStackTrace();
             // エラーメッセージをリクエストに設定
@@ -32,8 +32,7 @@ public class SubjectListAction extends Action {
         }
 
         // リクエストに科目リストを設定
-     // リクエストに科目リストを設定
-        request.setAttribute("subjects", subject != null ? subject : new ArrayList<>());
+        request.setAttribute("subjects", subjects);
 
         // subject_list.jsp にフォワード
         RequestDispatcher dispatcher = request.getRequestDispatcher("subject_list.jsp");

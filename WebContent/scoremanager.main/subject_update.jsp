@@ -5,5 +5,5 @@
     <c:param name="title" value="科目変更"/>
     <c:param name="scripts" value=""/>
     <c:param name="contentPage" value="subject_update_content.jsp"/>
-    <c:param name="showSidebar" value="true" />
+    <c:param name="showSidebar" value="true"/>
 </c:import>

@@ -184,5 +184,88 @@ public class SubjectDao extends Dao {
             }
         }
     }
+    public Subject find(String cd) throws Exception {
+        Subject subject = null;
+        String sql = "select * from subject where cd=?";
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        try {
+            connection = getConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, cd);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                subject = new Subject();
+                subject.setCd(rs.getString("cd"));
+                subject.setSchool_CD(rs.getString("school_cd"));
+                subject.setName(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("データベースエラーが発生しました。");
+        } finally {
+            // リソースのクローズ
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return subject;
+    }
+    public boolean update(Subject subject) throws Exception {
+        String sql = "update subject set name=? where cd=? and school_cd=?";
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = getConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, subject.getName());
+            stmt.setString(2, subject.getCd());
+            stmt.setString(3, subject.getSchool_CD());
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("データベースエラーが発生しました。");
+        } finally {
+            // リソースのクローズ
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

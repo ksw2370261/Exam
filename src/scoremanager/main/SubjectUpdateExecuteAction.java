@@ -1,42 +1,43 @@
 package scoremanager.main;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/SubjectUpdateExecute.action")
-public class SubjectUpdateExecuteAction extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String subjectCode = request.getParameter("subjectCode");
-        String newSubjectName = request.getParameter("subjectName");
+import bean.Subject;
+import dao.SubjectDao;
+import tool.Action;
 
-        // バリデーションの例
-        if (newSubjectName == null || newSubjectName.isEmpty()) {
-            request.setAttribute("errors", "科目名を入力してください");
-            request.getRequestDispatcher("/subject_update.jsp").forward(request, response);
+public class SubjectUpdateExecuteAction extends Action {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // フォームから科目情報を取得
+        String subjectCd = request.getParameter("cd");
+        String subjectName = request.getParameter("subjectName");
+
+        // バリデーション
+        Map<String, String> errors = new HashMap<>();
+        if (subjectName == null || subjectName.isEmpty()) {
+            errors.put("subjectName", "科目名を入力してください");
+        }
+
+        if (!errors.isEmpty()) {
+            // エラーがある場合、元のフォームに戻る
+            request.setAttribute("errors", errors);
+            request.getRequestDispatcher("subject_update.jsp").forward(request, response);
             return;
         }
 
-        // 科目の更新処理（ここではダミーとして記述）
-        boolean updatedSuccessfully = updateSubject(subjectCode, newSubjectName);
+        // 科目情報を更新
+        SubjectDao subjectDao = new SubjectDao();
+        Subject subject = new Subject();
+        subject.setCd(subjectCd);
+        subject.setName(subjectName);
+        subjectDao.update(subject);
 
-        if (updatedSuccessfully) {
-            // 変更が成功した場合は完了画面にリダイレクト
-            response.sendRedirect(request.getContextPath() + "/subject_update_done.jsp");
-        } else {
-            // 変更が失敗した場合はエラーメッセージをセットしてフォームに戻る
-            request.setAttribute("error", "変更に失敗しました");
-            request.getRequestDispatcher("/subject_update.jsp").forward(request, response);
-        }
-    }
-
-    private boolean updateSubject(String subjectCode, String newSubjectName) {
-        // ここに実際のデータベース更新処理を記述する（例としてダミーメソッド）
-        // この例では成功として常にtrueを返す
-        return true;
+        // 成功メッセージを設定してリダイレクト
+        request.getRequestDispatcher("subject_update_done.jsp").forward(request, response);
     }
 }
