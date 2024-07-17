@@ -9,7 +9,7 @@
 
 <title>得点管理システム</title>
 <style>
- 
+
     </style>
 </head>
 <body>
@@ -19,17 +19,17 @@
 <div class="h2">
 <h2>成績管理</h2>
 </div>
- 
+
     <div class="message">
 <%
             String message = (String) request.getAttribute("message");
             if (message == null) {
-                message = "登録が完了しました";  // デフォルトメッセージ
+                message = "登録が完了しました";
             }
             out.print(message);
         %>
 </div>
- 
+
     <div class="links">
 <a href="<%= request.getContextPath() %>/back">戻る</a>
 <a href="<%= request.getContextPath() %>/reference">成績参照</a>
@@ -39,4 +39,3 @@
 </body>
 </html>
 
- 
