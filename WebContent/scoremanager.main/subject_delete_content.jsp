@@ -19,7 +19,7 @@
     </div>
 
     <div class="mt-3">
-        <form action="SubjectDeleteConfirm.action" method="post">
+        <form action="SubjectDeleteExecute.action" method="post">
             <input type="hidden" name="cd" value="${subject.cd}">
             <input type="hidden" name="school_cd" value="${subject.school_CD}">
             <button type="submit" class="btn btn-danger">削除</button>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="mt-3">
-        <a href="SubjectList.action" class="btn btn-link">戻る</a>
+        <a href="SubjectList.action" style="text-decoration: underline;">戻る</a>
     </div>
 
 </section>

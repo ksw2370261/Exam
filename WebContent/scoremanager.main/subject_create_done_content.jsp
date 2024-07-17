@@ -15,7 +15,8 @@
     <div class="alert alert-success" role="alert">
         科目の登録が完了しました。
     </div>
-    <a href="SubjectList.action" class="btn btn-secondary">科目一覧に戻る</a>
+    <a href="SubjectCreate.action" style="display: inline-block; width: 100px; text-decoration: underline;">戻る</a>
+	<a href="SubjectList.action" style="display: inline-block; width: 100px; text-decoration: underline;">科目一覧</a>
 </section>
 </body>
 </html>
