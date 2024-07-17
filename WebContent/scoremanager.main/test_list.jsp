@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>成績管理</h2>
+        <h2>成績参照</h2>
         
         <!-- 科目情報検索フォーム -->
         <form id="subjectSearchForm" action="SearchSubjectServlet" method="post" onsubmit="return validateSubjectSearch()">
