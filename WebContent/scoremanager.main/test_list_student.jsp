@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h2>科目情報</h2>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -19,8 +19,8 @@
                     <th>クラス</th>
                     <th>学生番号</th>
                     <th>氏名</th>
-                    <th>一回目の点数</th>
-                    <th>二回目の点数</th>
+                    <th>1回目の点数</th>
+                    <th>2回目の点数</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                 </c:forEach>
             </tbody>
         </table>
-        
+
     </div>
 </body>
 </html>
