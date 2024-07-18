@@ -150,6 +150,42 @@ public class SubjectDao extends Dao {
         }
     }
 
+    public boolean update(Subject subject) throws Exception {
+        String sql = "update subject set name=? where cd=? and school_cd=?";
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, subject.getName());
+            stmt.setString(2, subject.getCd());
+            stmt.setString(3, subject.getSchool_CD());
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("データベースエラーが発生しました。");
+        } finally {
+            // リソースのクローズ
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public boolean delete(Subject subject) throws Exception {
         String sql = "delete from subject where cd=? and school_cd=?";
         Connection connection = null;
@@ -184,5 +220,4 @@ public class SubjectDao extends Dao {
             }
         }
     }
-
 }
