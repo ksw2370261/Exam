@@ -1,43 +1,44 @@
 package scoremanager.main;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.Subject;
+import bean.Teacher;
 import dao.SubjectDao;
 import tool.Action;
 
 public class SubjectUpdateExecuteAction extends Action {
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // フォームから科目情報を取得
-        String subjectCd = request.getParameter("cd");
-        String subjectName = request.getParameter("subjectName");
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        HttpSession session = req.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("login");
 
-        // バリデーション
-        Map<String, String> errors = new HashMap<>();
-        if (subjectName == null || subjectName.isEmpty()) {
-            errors.put("subjectName", "科目名を入力してください");
-        }
+        String cd = req.getParameter("cd");
+        String name = req.getParameter("subjectName");
 
-        if (!errors.isEmpty()) {
-            // エラーがある場合、元のフォームに戻る
-            request.setAttribute("errors", errors);
-            request.getRequestDispatcher("subject_update.jsp").forward(request, response);
+        // Error checking for empty fields
+        if (name == null || name.trim().isEmpty()) {
+            req.setAttribute("error", "科目名を入力してください。");
+            req.getRequestDispatcher("subject_update.jsp").forward(req, res);
             return;
         }
 
-        // 科目情報を更新
-        SubjectDao subjectDao = new SubjectDao();
         Subject subject = new Subject();
-        subject.setCd(subjectCd);
-        subject.setName(subjectName);
-        subjectDao.update(subject);
+        subject.setCd(cd);
+        subject.setSchool_CD(teacher.getSchool_cd());
+        subject.setName(name);
 
-        // 成功メッセージを設定してリダイレクト
-        request.getRequestDispatcher("subject_update_done.jsp").forward(request, response);
+        SubjectDao subjectDao = new SubjectDao();
+        boolean result = subjectDao.update(subject);
+
+        if (result) {
+            req.getRequestDispatcher("subject_update_done.jsp").forward(req, res);
+        } else {
+            req.setAttribute("error", "科目の変更に失敗しました。");
+            req.getRequestDispatcher("subject_update.jsp").forward(req, res);
+        }
     }
 }

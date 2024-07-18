@@ -16,7 +16,7 @@
         <form action="SubjectUpdateExecute.action" method="post">
             <div class="mb-3">
                 <label for="subjectCd" class="form-label">科目ID</label>
-                <input type="text" class="form-control" id="subjectcd" name="cd" value="${subject.cd}" readonly>
+                <input type="text" class="form-control" id="subjectCd" name="cd" value="${subject.cd}" readonly>
             </div>
             <div class="mb-3">
                 <label for="subjectName" class="form-label">科目名</label>
