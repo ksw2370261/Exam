@@ -8,8 +8,8 @@
     </div>
     <div class="menu-item menu-item-2">
         <div>成績管理</div>
-        <a href="#">成績登録</a>
-        <a href="#">成績参照</a>
+        <a href="TestRegist.action">成績登録</a>
+        <a href="TestList.action">成績参照</a>
     </div>
     <div class="menu-item menu-item-3">
         <a href="SubjectList.action">科目管理</a>
