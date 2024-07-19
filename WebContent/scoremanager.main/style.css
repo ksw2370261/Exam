@@ -285,6 +285,16 @@ footer {
     padding-left: 0; /* 左側の余白をリセット（必要に応じて調整） */
 }
 
+.logout-login-link a {
+	color: #007bff; /* 文字色を青に設定 */
+    text-decoration: underline; /* 下線を設定 */
+    text-align: left; /* テキストを左寄せ */
+    width: 700px; /* 背景と同じ幅に設定 */
+    margin: 10px auto; /* 上下の余白を追加し、中央に配置 */
+    display: block; /* ブロック要素として扱う */
+    padding-left: 0; /* 左側の余白をリセット（必要に応じて調整） */
+}
+
 .center-section {
     display: flex;
     flex-direction: column;
