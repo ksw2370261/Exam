@@ -58,6 +58,14 @@ public class TestRegistAction extends Action {
             TestDao testDao = new TestDao();
             List<Test> testList = testDao.filter(entYear, classNum, subject, no, school);
 
+            // デバッグ用ログ出力: testList の内容を表示
+            System.out.println("Test List:");
+            for (Test test : testList) {
+                System.out.println("Student No: " + test.getStudent_NO() + ", Subject CD: " + test.getSubject_CD() +
+                                   ", School CD: " + test.getSchool_CD() + ", No: " + test.getNo() +
+                                   ", Point: " + test.getPoint() + ", Class Num: " + test.getClass_Num());
+            }
+
             // リクエストにデータを格納
             request.setAttribute("subjectList", subjectList);
             request.setAttribute("studentList", studentList);

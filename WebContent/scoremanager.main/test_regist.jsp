@@ -12,7 +12,9 @@
 <body>
 <div class="container">
     <h1>テスト登録</h1>
-    <form action="test_regist" method="post">
+
+    <!-- 検索フォーム -->
+    <form action="TestRegist.action" method="post">
         <!-- 入学年度 -->
         <label for="entYear">入学年度</label>
         <select id="entYear" name="entYear">
@@ -38,13 +40,12 @@
         </select>
 
         <!-- 回数 -->
-        <label for="no">回数</label>
-        <select id="no" name="no">
-            <c:forEach var="test" items="${testList}">
-                <option value="${test.no}" ${test.no == param.no ? 'selected' : ''}>${test.no}</option>
-            </c:forEach>
-        </select>
-
+<label for="no">回数</label>
+<select id="no" name="no">
+    <c:forEach begin="1" end="10" var="no">
+        <option value="${no}" ${no == param.no ? 'selected' : ''}>${no}</option>
+    </c:forEach>
+</select>
         <button type="submit">検索</button>
     </form>
 
@@ -54,6 +55,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>入学年度</th>
                     <th>学生番号</th>
                     <th>クラス</th>
                     <th>氏名</th>
@@ -63,6 +65,7 @@
             <tbody>
                 <c:forEach var="test" items="${testList}">
                     <tr>
+                        <td>${test.ent_Year}</td>
                         <td>${test.student_NO}</td>
                         <td>${test.class_Num}</td>
                         <td>${test.name}</td>
@@ -71,9 +74,6 @@
                 </c:forEach>
             </tbody>
         </table>
-    </c:if>
-    <c:if test="${empty testList}">
-        <p>該当するデータが見つかりませんでした。</p>
     </c:if>
 </div>
 </body>
