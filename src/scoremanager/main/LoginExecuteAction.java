@@ -34,7 +34,7 @@ public class LoginExecuteAction extends Action {
                 request.getRequestDispatcher("menu.jsp").forward(request, response);
             } else {
                 // ログイン失敗時の処理
-                request.setAttribute("error", "ログインに失敗しました。IDまたはパスワードが正しくありません。");
+                request.setAttribute("error", "・  ログインに失敗しました。IDまたはパスワードが正しくありません。");
                 request.setAttribute("contentPage", "login-in_content.jsp");
                 request.setAttribute("showSidebar", "false");
                 request.getRequestDispatcher("login-in.jsp").forward(request, response);
