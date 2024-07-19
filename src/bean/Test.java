@@ -11,7 +11,7 @@ public class Test implements Serializable{
 	private String class_num;
 
 
-	public String getStudnet_NO(){
+	public String getStudent_NO(){
 		return student_no;
 	}
 	public void setStudent_NO(String student_no){
