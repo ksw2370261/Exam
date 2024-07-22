@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>成績</title>
+    <title>成績管理</title>
     <style>
         /* Reset */
         body {
@@ -23,7 +23,7 @@
             background-color: #a9a9a9;
             padding: 10px;
             border-radius: 5px;
-       
+
         }
 
         h2 {
@@ -31,7 +31,7 @@
             background-color: #a9a9a9;
             padding: 10px;
             border-radius: 5px;
-          
+
         }
 
         /* Form styles */
