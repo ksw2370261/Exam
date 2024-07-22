@@ -13,7 +13,7 @@
         <div class="status-message">
             ログアウトしました
         </div>
-        <div class="login-link">
+        <div class="logout-login-link">
             <a href="LoginAction">ログイン</a>
         </div>
     </section>
