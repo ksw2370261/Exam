@@ -104,9 +104,9 @@ select {
 
 /* Input box styles */
 input[type="text"] {
-    width: 100%;
+    width: 150%;
     max-width: 200px;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 8px; /* Match the padding of select boxes */
     border: 1px solid #ccc;
 }
@@ -165,7 +165,7 @@ input::placeholder {
                             </select>
                         </td>
                         <td>
-                            <button type="submit">科目情報を検索</button>
+                            <button type="submit">検索</button>
                         </td>
                     </tr>
                 </tbody>
@@ -184,7 +184,7 @@ input::placeholder {
                             <input type="text" id="studentId" name="studentId" placeholder="学生番号を入力してください">
                         </td>
                         <td>
-                            <button type="submit">学生情報を検索</button>
+                            <button type="submit">検索</button>
                         </td>
                     </tr>
                 </tbody>
@@ -215,7 +215,7 @@ input::placeholder {
             var errorMessage = document.getElementById('studentErrorMessage');
 
             if (studentId.trim() === '') {
-                errorMessage.textContent = '学生番号を入力してください。';
+                errorMessage.textContent = 'このフィールドを入力してください。';
                 return false;
             } else {
                 errorMessage.textContent = '';
