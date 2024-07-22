@@ -10,9 +10,7 @@
 <body>
     <section class="center-section"> <!-- クラスを追加 -->
         <h2>ログアウト</h2>
-        <div class="status-message">
-            ログアウトしました
-        </div>
+        <p><label>ログアウトしました</label></p>
         <div class="logout-login-link">
             <a href="LoginAction">ログイン</a>
         </div>
