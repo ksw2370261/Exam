@@ -106,7 +106,7 @@ select {
 input[type="text"] {
     width: 150%;
     max-width: 200px;
-    border-radius: 3px;
+    border-radius: 5px;
     padding: 8px; /* Match the padding of select boxes */
     border: 1px solid #ccc;
 }
