@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>成績管理</title>
+    <title>成績</title>
     <style>
         /* Reset */
         body {
