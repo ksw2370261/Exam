@@ -7,71 +7,122 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <title>成績管理システム - 検索</title>
     <style>
-        /* 基本スタイル */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-        }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        select {
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            width: 100%;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #subjectErrorMessage {
-            color: yellow;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        #studentErrorMessage {
-            color: black;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .info-message {
-            color: #666;
-            margin-top: 20px;
-        }
+       /* style4.css */
+
+/* Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styles */
+.container {
+    padding: 20px;
+}
+
+/* Heading styles */
+h2 {
+    margin-bottom: 20px;
+    background-color: #a9a9a9;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Form styles */
+form {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px;
+    background-color: #d3d3d3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #bbb;
+}
+
+/* Separator styles */
+.separator {
+    border: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+/* Section title styles */
+.section-title {
+    font-weight: bold;
+    padding-right: 10px;
+    vertical-align: top; /* 垂直方向に揃える */
+}
+
+/* Grade management and registration styles */
+.grade-management td, .grade-registration td {
+    vertical-align: middle; /* 垂直方向に中央揃え */
+}
+
+/* Select box styles */
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    -webkit-appearance: none; /* Remove default arrow for Chrome/Safari/Edge */
+    -moz-appearance: none; /* Remove default arrow for Firefox */
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Add custom arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 8px top 50%;
+    background-size: 12px;
+    background-color: white;
+}
+
+/* Input box styles */
+input[type="text"] {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 5px;
+    padding: 8px; /* Match the padding of select boxes */
+    border: 1px solid #ccc;
+}
+
+/* Placeholder text styles */
+input::placeholder {
+    color: #aaa;
+}
+
+/* Info message styles */
+.info-message {
+    color: #0000FF
+    margin-top: 10px;
+    font-size: 14px;
+}
+       
     </style>
 </head>
 <body>
@@ -99,8 +150,8 @@
                             <select id="class" name="class" onchange="clearSubjectError()">
                                 <option value="--------">--------</option>
                                 <!-- JSP スクリプトレットでクラスのリストを表示する -->
-                                <c:forEach var="class" items="${classes}">
-                                    <option value="${class}">${class}</option>
+                                <c:forEach var="className" items="${classes}">
+                                    <option value="${className}">${className}</option>
                                 </c:forEach>
                             </select>
                         </td>
