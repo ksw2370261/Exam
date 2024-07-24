@@ -13,9 +13,9 @@
 
     <section class="me-4">
         <h2 class="h3 mb-3 fw-normal bg-light bg-opacity-10 py-2 px-4">科目変更完了</h2>
-        <div class="alert alert-success" role="alert">
-            変更が完了しました
-        </div>
+        <p class="alert alert-success" role="alert">
+    		変更が完了しました
+		</p>
         <div class="text-left">
             <a href="SubjectList.action">科目一覧へ</a>
         </div>

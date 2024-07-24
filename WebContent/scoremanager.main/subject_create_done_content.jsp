@@ -12,9 +12,9 @@
 
 <section class="me-4">
     <h2 class="h3 mb-3 fw-norma bg-light bg-opacity-10 py-2 px-4">科目登録完了</h2>
-    <div class="alert alert-success" role="alert">
-        科目の登録が完了しました。
-    </div>
+    <p class="alert alert-success" role="alert">
+    	科目の登録が完了しました
+	</p>
     <a href="SubjectCreate.action" style="display: inline-block; width: 100px; text-decoration: underline;">戻る</a>
 	<a href="SubjectList.action" style="display: inline-block; width: 100px; text-decoration: underline;">科目一覧</a>
 </section>

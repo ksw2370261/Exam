@@ -17,7 +17,7 @@
             <div class="user-info">
                 <c:choose>
                     <c:when test="${not empty sessionScope.login}">
-                        ${sessionScope.login.name}様
+                        <span>${sessionScope.login.name}様</span>
                         <a href="Logout.action" class="logout-link">ログアウト</a>
                     </c:when>
                 </c:choose>
