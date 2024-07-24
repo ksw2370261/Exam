@@ -23,7 +23,6 @@
             background-color: #a9a9a9;
             padding: 10px;
             border-radius: 5px;
-
         }
 
         h2 {
@@ -31,7 +30,6 @@
             background-color: #a9a9a9;
             padding: 10px;
             border-radius: 5px;
-
         }
 
         /* Form styles */
@@ -119,8 +117,8 @@
             <label for="entYear">入学年度</label>
             <select id="entYear" name="entYear">
                 <option value="">---------</option>
-                <c:forEach var="student" items="${studentList}">
-                    <option value="${student.entYear}" ${student.entYear == param.entYear ? 'selected' : ''}>${student.entYear}</option>
+                <c:forEach var="entYear" items="${entYearList}">
+                    <option value="${entYear}" ${entYear == param.entYear ? 'selected' : ''}>${entYear}</option>
                 </c:forEach>
             </select>
         </div>
@@ -130,8 +128,8 @@
             <label for="classNum">クラス</label>
             <select id="classNum" name="classNum">
                 <option value="">---------</option>
-                <c:forEach var="student" items="${studentList}">
-                    <option value="${student.classNum}" ${student.classNum == param.classNum ? 'selected' : ''}>${student.classNum}</option>
+                <c:forEach var="classNum" items="${classNumList}">
+                    <option value="${classNum}" ${classNum == param.classNum ? 'selected' : ''}>${classNum}</option>
                 </c:forEach>
             </select>
         </div>
