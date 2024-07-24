@@ -7,13 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bean.School;
 import bean.Subject;
 import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
 
     // 入学年度、クラス番号、科目コード、学校コードでフィルタリングするSQL
-    private String baseSql = "SELECT * FROM test_list_subject WHERE entry_year = ? AND class_num = ? AND subject_cd = ?";
+    private String baseSql = "SELECT * FROM test_list_subject WHERE entry_year = ? AND class_num = ? AND subject_cd = ? AND school_cd = ?";
 
     // ResultSetからTestListSubjectリストを生成するメソッド
     private List<TestListSubject> postFilter(ResultSet rs) throws SQLException {
@@ -33,8 +34,8 @@ public class TestListSubjectDao extends Dao {
         return list;
     }
 
-    // 入学年度、クラス番号、科目でTestListSubjectリストをフィルタリングするメソッド
-    public List<TestListSubject> filter(int entYear, String classNum, Subject subject) throws Exception {
+    // 入学年度、クラス番号、科目、学校でTestListSubjectリストをフィルタリングするメソッド
+    public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
         List<TestListSubject> subjects = new ArrayList<>();
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -46,6 +47,7 @@ public class TestListSubjectDao extends Dao {
             stmt.setInt(1, entYear);
             stmt.setString(2, classNum);
             stmt.setString(3, subject.getCd());
+            stmt.setString(4, school.getCd());
             rs = stmt.executeQuery();
             subjects = postFilter(rs);
         } catch (SQLException e) {
