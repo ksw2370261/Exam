@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,127 +8,105 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <title>成績管理システム - 検索</title>
     <style>
-        /* style4.css */
-
-        /* Reset */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-size: 12px; /* 全体のフォントサイズを小さく */
         }
-
-        /* Container styles */
         .container {
-            padding: 20px;
+            padding: 10px; /* 余白を減らす */
         }
-
-        /* Heading styles */
         h2 {
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* 下の余白を減らす */
+            font-size: 16px; /* 見出しのフォントサイズを小さく */
             background-color: #a9a9a9;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 5px; /* パディングを減らす */
+            border-radius: 3px; /* 角丸を小さく */
         }
-
-        /* Form styles */
         form {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 5px;
+            margin-top: 10px; /* 上の余白を減らす */
+            padding: 10px; /* パディングを減らす */
+            border-radius: 3px; /* 角丸を小さく */
             border: 1px solid #ccc;
         }
-
-        /* Table styles */
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
         th, td {
-            padding: 10px;
+            padding: 5px; /* パディングを減らす */
             text-align: left;
         }
-
         th {
             background-color: #f2f2f2;
             border: 1px solid #ccc;
         }
-
-        /* Button styles */
         button {
-            padding: 10px 20px;
+            padding: 5px 10px; /* パディングを減らす */
             background-color: #d3d3d3;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 3px; /* 角丸を小さく */
             cursor: pointer;
         }
-
         button:hover {
             background-color: #bbb;
         }
-
-        /* Separator styles */
         .separator {
             border: 1px solid #ccc;
-            margin: 20px 0;
+            margin: 10px 0; /* 余白を減らす */
         }
-
-        /* Section title styles */
         .section-title {
             font-weight: bold;
-            padding-right: 10px;
-            vertical-align: top; /* 垂直方向に揃える */
+            padding-right: 20px; /* 余白を減らす */
+            vertical-align: middle; /* 中央揃え */
+            text-align: left; /* 左揃え */
         }
-
-        /* Grade management and registration styles */
         .grade-management td, .grade-registration td {
-            vertical-align: middle; /* 垂直方向に中央揃え */
+            vertical-align: middle; 
         }
-
-        /* Select box styles */
         select {
             width: 100%;
-            padding: 8px;
-            border-radius: 5px;
+            padding: 4px; /* パディングを減らす */
+            border-radius: 3px; /* 角丸を小さく */
             border: 1px solid #ccc;
             box-sizing: border-box;
-            -webkit-appearance: none; /* Remove default arrow for Chrome/Safari/Edge */
-            -moz-appearance: none; /* Remove default arrow for Firefox */
-            appearance: none; /* Remove default arrow */
-            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Add custom arrow icon */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
             background-repeat: no-repeat;
-            background-position: right 8px top 50%;
-            background-size: 12px;
-            background-color: white;
+            background-position: right 4px top 50%;
+            background-size: 8px;
         }
-
-        /* Input box styles */
         input[type="text"] {
-            width: 150%;
-            max-width: 200px;
-            border-radius: 5px;
-            padding: 8px; /* Match the padding of select boxes */
+            width: 100%;
+            max-width: 150px; /* 最大幅を設定 */
+            border-radius: 3px; /* 角丸を小さく */
+            padding: 4px; /* パディングを減らす */
             border: 1px solid #ccc;
         }
-
-        /* Placeholder text styles */
-        input::placeholder {
-            color: #aaa;
-        }
-
-        /* Info message styles */
         .info-message {
             color: #0000FF;
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 5px; /* 上の余白を減らす */
+            font-size: 12px; /* フォントサイズを小さく */
         }
-
-        /* Error message styles */
         .error-message {
             color: #FF0000;
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 5px; /* 上の余白を減らす */
+            font-size: 12px; /* フォントサイズを小さく */
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column; /* 縦に並べる */
+        }
+        .form-group label {
+            margin-bottom: 5px; /* ラベルと入力フォームの間のマージン */
+            text-align: left; /* 左揃え */
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            max-width: 150px; /* 最大幅を設定 */
         }
     </style>
 </head>
@@ -142,8 +121,8 @@
                     <tr>
                         <td class="section-title">科目情報</td>
                         <td>
-                            <label for="year">入学年度</label>
-                            <select id="year" name="year" onchange="clearSubjectError()">
+                            <label for="f1">入学年度</label>
+                            <select id="f1" name="f1" onchange="clearSubjectError()">
                                 <option value="--------">--------</option>
                                 <!-- JSP スクリプトレットで年のリストを表示する -->
                                 <c:forEach var="year" items="${years}">
@@ -152,8 +131,8 @@
                             </select>
                         </td>
                         <td>
-                            <label for="class">クラス</label>
-                            <select id="class" name="class" onchange="clearSubjectError()">
+                            <label for="f2">クラス</label>
+                            <select id="f2" name="f2" onchange="clearSubjectError()">
                                 <option value="--------">--------</option>
                                 <!-- JSP スクリプトレットでクラスのリストを表示する -->
                                 <c:forEach var="className" items="${classes}">
@@ -162,8 +141,8 @@
                             </select>
                         </td>
                         <td>
-                            <label for="subject">科目</label>
-                            <select id="subject" name="subject" onchange="clearSubjectError()">
+                            <label for="f3">科目</label>
+                            <select id="f3" name="f3" onchange="clearSubjectError()">
                                 <option value="--------">--------</option>
                                 <c:forEach var="subject" items="${subjects}">
                                     <option value="${subject.cd}">${subject.name}</option>
@@ -186,8 +165,10 @@
                     <tr>
                         <td class="section-title">学生情報</td>
                         <td>
-                            <label for="studentId">学生番号</label><br>
-                            <input type="text" id="studentId" name="studentId" placeholder="学生番号を入力してください" required>
+                            <div class="form-group">
+                                <label for="f4">学生番号</label>
+                                <input type="text" id="f4" name="f4" value="${f4}" placeholder="学生番号を入力してください" required>
+                            </div>
                         </td>
                         <td>
                             <button type="submit">検索</button>
@@ -201,9 +182,9 @@
     </div>
     <script>
     function validateSubjectSearch() {
-        var year = document.getElementById('year').value;
-        var classValue = document.getElementById('class').value;
-        var subject = document.getElementById('subject').value;
+        var year = document.getElementById('f1').value;
+        var classValue = document.getElementById('f2').value;
+        var subject = document.getElementById('f3').value;
         var errorMessage = document.getElementById('subjectErrorMessage');
 
         if (year === '--------' || classValue === '--------' || subject === '--------') {
@@ -215,9 +196,9 @@
         }
     }
 
-        function clearSubjectError() {
-            document.getElementById('subjectErrorMessage').textContent = '';
-        }
+    function clearSubjectError() {
+        document.getElementById('subjectErrorMessage').textContent = '';
+    }
     </script>
 </body>
 </html>
