@@ -14,7 +14,7 @@
         <h2>成績参照</h2>
 
         <!-- 科目情報検索フォーム -->
-        <form id="subjectSearchForm" action="TestListSubjectExecuteAction" method="post" onsubmit="return validateSubjectSearch()">
+        <form id="subjectSearchForm" action="TestListSubjectExecute.action" method="post" onsubmit="return validateSubjectSearch()">
             <table class="table">
                 <tbody>
                     <tr>
@@ -56,7 +56,7 @@
         </form>
 
         <!-- 学生情報検索フォーム -->
-        <form id="studentSearchForm" action="TestListStudentExecuteAction" method="post">
+        <form id="studentSearchForm" action="TestListStudentExecute.action" method="post">
             <table class="table">
                 <tbody>
                     <tr>

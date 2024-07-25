@@ -1,5 +1,6 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,11 +47,14 @@ public class TestListAction extends Action {
         // DBからデータ取得
         List<String> classNumList = classNumDao.filter(teacher.getSchool_cd());
         List<Subject> subjectList = subjectDao.filter(teacher.getSchool_cd());
+
+        LocalDate todaysDate = LocalDate.now();
+        int year = todaysDate.getYear();
         List<Integer> yearList = new ArrayList<>(); // 入学年度リスト
 
         // 入学年度のリストを生成するための仮のデータ (実際のデータはデータベースから取得)
-        for (int year = 2000; year <= 2024; year++) {
-            yearList.add(year);
+        for (int i = year - 10; i <= year + 1; i++) {
+            yearList.add(i);
         }
 
         List<TestListSubject> testListSubjects = new ArrayList<>();
