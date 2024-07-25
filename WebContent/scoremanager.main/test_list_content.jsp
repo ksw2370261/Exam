@@ -5,18 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>成績管理システム - 検索</title>
+    <title>成績管理システム - 検索結果</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="testlist.css"> <!-- testlist.css を追加 -->
 </head>
 <body>
     <div class="main-content">
-        <%-- タイトルをリクエストから取得 --%>
-        <h2><c:out value="${title}" default="成績参照" /></h2>
+        <h2>成績参照</h2>
 
         <!-- 科目情報検索フォーム -->
         <form id="subjectSearchForm" action="TestListSubjectExecuteAction" method="post" onsubmit="return validateSubjectSearch()">
-            <table>
+            <table class="table">
                 <tbody>
                     <tr>
                         <td class="section-title">科目情報</td>
@@ -53,12 +52,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div id="subjectErrorMessage" class="error-message"></div>
+            <div id="subjectErrorMessage" class="error-message text-danger"></div>
         </form>
-        
+
         <!-- 学生情報検索フォーム -->
         <form id="studentSearchForm" action="TestListStudentExecuteAction" method="post">
-            <table>
+            <table class="table">
                 <tbody>
                     <tr>
                         <td class="section-title">学生情報</td>
@@ -75,8 +74,57 @@
                 </tbody>
             </table>
         </form>
-        
+
         <p class="info-message">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
+
+        <!-- 検索結果表示 -->
+        <c:if test="${not empty subjectResults}">
+            <h3>科目検索結果</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>科目コード</th>
+                        <th>科目名</th>
+                        <th>学校</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="result" items="${subjectResults}">
+                        <tr>
+                            <td>${result.cd}</td>
+                            <td>${result.name}</td>
+                            <td>${result.school}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
+        <c:if test="${not empty studentResults}">
+            <h3>学生検索結果</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>学生番号</th>
+                        <th>学生名</th>
+                        <th>入学年度</th>
+                        <th>クラス</th>
+                        <th>出席状況</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="result" items="${studentResults}">
+                        <tr>
+                            <td>${result.no}</td>
+                            <td>${result.name}</td>
+                            <td>${result.entYear}</td>
+                            <td>${result.classNum}</td>
+                            <td>${result.isAttend ? '出席' : '不出席'}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
     </div>
 
     <script>
