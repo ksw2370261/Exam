@@ -3,31 +3,31 @@ package bean;
 import java.io.Serializable;
 
 public class Test implements Serializable{
-	private String student_no;
-	private String subject_cd;
-	private String school_cd;
+	private Student student;
+	private Subject subject;
+	private School school;
 	private int no;
 	private int point;
-	private String class_num;
+	private String classnum;
 
 
-	public String getStudent_NO(){
-		return student_no;
+	public Student getStudent(){
+		return student;
 	}
-	public void setStudent_NO(String student_no){
-		this.student_no = student_no;
+	public void setStudent(Student student){
+		this.student = student;
 	}
-	public String getSubject_CD(){
-		return subject_cd;
+	public Subject getSubject(){
+		return subject;
 	}
-	public void setSubject_CD(String subject_cd){
-		this.subject_cd = subject_cd;
+	public void setSubject(Subject subject){
+		this.subject = subject;
 	}
-	public String getSchool_CD(){
-		return school_cd;
+	public School getSchool(){
+		return school;
 	}
-	public void setSchool_CD(String school_cd){
-		this.school_cd = school_cd;
+	public void setSchool(School school){
+		this.school = school;
 	}
 	public int getNo(){
 		return no;
@@ -41,10 +41,10 @@ public class Test implements Serializable{
 	public void setPoint(int point){
 		this.point = point;
 	}
-	public String getClass_Num(){
-		return class_num;
+	public String getClassNum(){
+		return classnum;
 	}
-	public void setClass_Num(String class_num){
-		this.class_num = class_num;
+	public void setClassNum(String classnum){
+		this.classnum = classnum;
 	}
 }

@@ -104,6 +104,13 @@
         .search-results {
             color: black;
         }
+
+        /* Error message styles */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -117,8 +124,8 @@
             <label for="entYear">入学年度</label>
             <select id="entYear" name="entYear">
                 <option value="">---------</option>
-                <c:forEach var="entYear" items="${entYearList}">
-                    <option value="${entYear}" ${entYear == param.entYear ? 'selected' : ''}>${entYear}</option>
+                <c:forEach var="year" items="${entYearList}">
+                    <option value="${year}" ${year == param.entYear ? 'selected' : ''}>${year}</option>
                 </c:forEach>
             </select>
         </div>
@@ -150,8 +157,8 @@
             <label for="no">回数</label>
             <select id="no" name="no">
                 <option value="">---------</option>
-                <c:forEach begin="1" end="10" var="no">
-                    <option value="${no}" ${no == param.no ? 'selected' : ''}>${no}</option>
+                <c:forEach var="i" begin="1" end="10">
+                    <option value="${i}" ${i == param.no ? 'selected' : ''}>${i}</option>
                 </c:forEach>
             </select>
         </div>
@@ -162,33 +169,45 @@
         </div>
     </form>
 
+    <!-- エラーメッセージの表示 -->
+    <c:if test="${not empty errorMessage}">
+        <div class="error-message">
+            ${errorMessage}
+        </div>
+    </c:if>
+
     <!-- 検索結果の表示 -->
     <h2>検索結果</h2>
     <div class="search-results">
-        <c:if test="${not empty testList}">
-            <table>
-                <thead>
-                    <tr>
-                        <th>入学年度</th>
-                        <th>学生番号</th>
-                        <th>クラス</th>
-                        <th>氏名</th>
-                        <th>点数</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="test" items="${testList}">
+        <c:choose>
+            <c:when test="${not empty testList}">
+                <table>
+                    <thead>
                         <tr>
-                            <td>${test.ent_Year}</td>
-                            <td>${test.student_NO}</td>
-                            <td>${test.class_Num}</td>
-                            <td>${test.name}</td>
-                            <td>${test.point}</td>
+                            <th scope="col">入学年度</th>
+                            <th scope="col">学生番号</th>
+                            <th scope="col">クラス</th>
+                            <th scope="col">氏名</th>
+                            <th scope="col">点数</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="test" items="${testList}">
+                            <tr>
+                                <td>${test.student.entYear}</td>
+                                <td>${test.student.no}</td>
+                                <td>${test.classNum}</td>
+                                <td>${test.student.name}</td>
+                                <td>${test.point}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <p>検索結果がありません。</p>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 </body>
