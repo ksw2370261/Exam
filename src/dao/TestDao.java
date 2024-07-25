@@ -14,15 +14,19 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    private String baseSql = "SELECT * FROM tests WHERE ";
+    private String baseSql = "SELECT Test.*, Student.*, Subject.*, School.* FROM test Test "
+                             + "JOIN student Student ON Test.student_no = Student.no "
+                             + "JOIN subject Subject ON Test.subject_cd = Subject.cd "
+                             + "JOIN school School ON Test.school_cd = School.cd "
+                             + "WHERE Test.school_cd = ?";
 
     public Test get(Student student, Subject subject, School school, int no) throws Exception {
-        String sql = baseSql + "student_no = ? AND subject_cd = ? AND school_cd = ? AND no = ?";
+        String sql = baseSql + " AND Test.student_no = ? AND Test.subject_cd = ? AND Test.no = ?";
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, student.getNo());
-            statement.setString(2, subject.getCd());
-            statement.setString(3, school.getCd());
+            statement.setString(1, school.getCd());
+            statement.setString(2, student.getNo());
+            statement.setString(3, subject.getCd());
             statement.setInt(4, no);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -40,7 +44,7 @@ public class TestDao extends Dao {
         List<Test> list = new ArrayList<>();
         while (resultSet.next()) {
             Test test = mapTest(resultSet);
-            if (test.getSchool_CD().equals(school.getCd())) {
+            if (test.getSchool().getCd().equals(school.getCd())) {
                 list.add(test);
             }
         }
@@ -48,35 +52,48 @@ public class TestDao extends Dao {
     }
 
     public List<Test> filter(int entYear, String classNum, Subject subject, int no, School school) throws Exception {
-        // 入学年度に基づいて学生情報を取得
-        StudentDao studentDao = new StudentDao();
-        Student student = studentDao.get(String.valueOf(entYear));
+        StringBuilder sqlBuilder = new StringBuilder(baseSql);
+        List<Object> params = new ArrayList<>();
+        params.add(school.getCd());
 
-        if (student == null) {
-            return new ArrayList<>(); // 学生が見つからない場合は空のリストを返す
+        if (entYear > 0) {
+            sqlBuilder.append(" AND Student.ent_year = ?");
+            params.add(entYear);
+        }
+        if (classNum != null && !classNum.isEmpty()) {
+            sqlBuilder.append(" AND Test.class_num = ?");
+            params.add(classNum);
+        }
+        if (subject != null && subject.getCd() != null && !subject.getCd().isEmpty()) {
+            sqlBuilder.append(" AND Test.subject_cd = ?");
+            params.add(subject.getCd());
+        }
+        if (no > 0) {
+            sqlBuilder.append(" AND Test.no = ?");
+            params.add(no);
         }
 
-        // SQLクエリの基本部分を定義
-        String baseSql = "SELECT * FROM test WHERE ent_year = ? AND class_num = ? AND subject_cd = ? AND no = ?";
+        String sql = sqlBuilder.toString();
 
-        // テスト回数が1から10の範囲内であることを確認
-        if (no < 1 || no > 10) {
-            throw new IllegalArgumentException("テスト回数は1から10の範囲で指定してください。");
-        }
-
-        // SQLクエリを実行して結果を取得
-        String sql = baseSql;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, student.getEntYear());
-            statement.setString(2, classNum);
-            statement.setString(3, subject.getCd());
-            statement.setInt(5, no);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return postFilter(resultSet, school);
+            for (int i = 0; i < params.size(); i++) {
+                statement.setObject(i + 1, params.get(i));
             }
+
+            System.out.println("Executing SQL: " + sql);
+            System.out.println("Parameters: " + params);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Test> testList = postFilter(resultSet, school);
+                System.out.println("Test List Size: " + testList.size());
+                return testList;
+            }
+        } catch (SQLException e) {
+            throw new Exception("テストの検索中にエラーが発生しました", e);
         }
     }
+
     public boolean save(List<Test> list) throws Exception {
         try (Connection connection = getConnection()) {
             connection.setAutoCommit(false);
@@ -94,16 +111,19 @@ public class TestDao extends Dao {
     }
 
     public boolean save(Test test, Connection connection) throws SQLException {
-        String sql = "INSERT INTO tests (student_no, subject_cd, school_cd, no, point, class_num) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO test (student_no, subject_cd, school_cd, no, point, class_num) "
+                   + "VALUES (?, ?, ?, ?, ?, ?) "
+                   + "ON DUPLICATE KEY UPDATE point = VALUES(point), class_num = VALUES(class_num)";
+
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, test.getStudent_NO());
-            statement.setString(2, test.getSubject_CD());
-            statement.setString(3, test.getSchool_CD());
+            statement.setString(1, test.getStudent().getNo());
+            statement.setString(2, test.getSubject().getCd());
+            statement.setString(3, test.getSchool().getCd());
             statement.setInt(4, test.getNo());
             statement.setInt(5, test.getPoint());
-            statement.setString(6, test.getClass_Num());
-            statement.executeUpdate();
-            return true;
+            statement.setString(6, test.getClassNum());
+
+            return statement.executeUpdate() > 0;
         }
     }
 
@@ -124,11 +144,11 @@ public class TestDao extends Dao {
     }
 
     public boolean delete(Test test, Connection connection) throws SQLException {
-        String sql = "DELETE FROM tests WHERE student_no = ? AND subject_cd = ? AND school_cd = ? AND no = ?";
+        String sql = "DELETE FROM test WHERE student_no = ? AND subject_cd = ? AND school_cd = ? AND no = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, test.getStudent_NO());
-            statement.setString(2, test.getSubject_CD());
-            statement.setString(3, test.getSchool_CD());
+            statement.setString(1, test.getStudent().getNo());
+            statement.setString(2, test.getSubject().getCd());
+            statement.setString(3, test.getSchool().getCd());
             statement.setInt(4, test.getNo());
             return statement.executeUpdate() > 0;
         }
@@ -136,12 +156,34 @@ public class TestDao extends Dao {
 
     private Test mapTest(ResultSet resultSet) throws SQLException {
         Test test = new Test();
-        test.setStudent_NO(resultSet.getString("student_no"));
-        test.setSubject_CD(resultSet.getString("subject_cd"));
-        test.setSchool_CD(resultSet.getString("school_cd"));
+
+        // Create and set Student object
+        Student student = new Student();
+        student.setNo(resultSet.getString("student_no"));
+        student.setName(resultSet.getString("name")); // 修正: "name" から "student_name" へ変更
+        student.setEntYear(resultSet.getInt("ent_year"));
+        student.setClassNum(resultSet.getString("class_num"));
+        student.setAttend(resultSet.getBoolean("is_attend"));
+        student.setSchool(resultSet.getString("school_cd"));
+        test.setStudent(student);
+
+        // Create and set Subject object
+        Subject subject = new Subject();
+        subject.setCd(resultSet.getString("subject_cd"));
+        subject.setName(resultSet.getString("name")); // 修正: "name" から "subject_name" へ変更
+        test.setSubject(subject);
+
+        // Create and set School object
+        School school = new School();
+        school.setCd(resultSet.getString("school_cd"));
+        school.setName(resultSet.getString("name"));
+        test.setSchool(school);
+
+        // Set other Test properties
         test.setNo(resultSet.getInt("no"));
         test.setPoint(resultSet.getInt("point"));
-        test.setClass_Num(resultSet.getString("class_num"));
+        test.setClassNum(resultSet.getString("class_num"));
+
         return test;
     }
 }
