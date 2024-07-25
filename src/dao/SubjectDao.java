@@ -14,140 +14,96 @@ public class SubjectDao extends Dao {
     private String baseSql = "select * from subject where cd=? and school_cd=?";
 
     public Subject get(String cd, String school_cd) throws Exception {
-        Subject subject = null;
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        Subject subject = new Subject();
 
-        try {
-            connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
-            stmt = connection.prepareStatement(baseSql);
-            stmt.setString(1, cd);
-            stmt.setString(2, school_cd);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                subject = new Subject();
-                subject.setCd(rs.getString("cd"));
-                subject.setSchool_CD(rs.getString("school_cd"));
-                subject.setName(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new Exception("データベースエラーが発生しました。");
-        } finally {
-            // リソースのクローズ
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(baseSql)) {
+            statement.setString(1, cd);
+            statement.setString(2, school_cd);
+            try (ResultSet rSet = statement.executeQuery()) {
+                if (rSet.next()) {
+                    subject.setCd(rSet.getString("cd"));
+                    subject.setName(rSet.getString("name"));
+                    subject.setSchool_CD(rSet.getString("school_cd"));
+                } else {
+                    subject = null;
                 }
             }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch (Exception e) {
+            throw e;
         }
 
         return subject;
     }
 
-    public List<Subject> filter(String school) throws Exception {
-        List<Subject> subjects = new ArrayList<>();
+    public List<Subject> filter(String school_cd) throws Exception {
+        List<Subject> list = new ArrayList<>();
         String sql = "select * from subject where school_cd=?";
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
 
-        try {
-            connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, school);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Subject subject = new Subject();
-                subject.setCd(rs.getString("cd"));
-                subject.setSchool_CD(rs.getString("school_cd"));
-                subject.setName(rs.getString("name"));
-                subjects.add(subject);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new Exception("データベースエラーが発生しました。");
-        } finally {
-            // リソースのクローズ
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, school_cd);
+            try (ResultSet rSet = statement.executeQuery()) {
+                while (rSet.next()) {
+                    Subject subject = new Subject();
+                    subject.setCd(rSet.getString("cd"));
+                    subject.setName(rSet.getString("name"));
+                    subject.setSchool_CD(rSet.getString("school_cd"));
+                    list.add(subject);
                 }
             }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch (Exception e) {
+            throw e;
         }
 
-        return subjects;
+        return list;
     }
 
     public boolean save(Subject subject) throws Exception {
-        String sql = "insert into subject (cd, school_cd, name) values (?, ?, ?)";
-        Connection connection = null;
-        PreparedStatement stmt = null;
+        int count;
+        String query;
 
-        try {
-            connection = getConnection(); // Daoクラスで定義されているメソッドでコネクションを取得する
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, subject.getCd());
-            stmt.setString(2, subject.getSchool_CD());
-            stmt.setString(3, subject.getName());
+        try (Connection connection = getConnection()) {
+            Subject old = get(subject.getCd(), subject.getSchool_CD());
+            if (old == null) {
+                query = "insert into subject(cd, name, school_cd) values(?, ?, ?)";
+            } else {
+                query = "update subject set name=? where cd=? and school_cd=?";
+            }
 
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (old == null) {
+                    statement.setString(1, subject.getCd());
+                    statement.setString(2, subject.getName());
+                    statement.setString(3, subject.getSchool_CD());
+                } else {
+                    statement.setString(1, subject.getName());
+                    statement.setString(2, subject.getCd());
+                    statement.setString(3, subject.getSchool_CD());
+                }
+                count = statement.executeUpdate();
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new Exception("データベースエラーが発生しました。");
-        } finally {
-            // リソースのクローズ
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            throw e;
         }
+
+        return count > 0;
+    }
+
+    public boolean delete(String cd, String school_cd) throws Exception {
+        int count;
+        String query = "delete from subject where cd=? and school_cd=?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, cd);
+            statement.setString(2, school_cd);
+            count = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
+
+        return count > 0;
     }
 
     public boolean update(Subject subject) throws Exception {
@@ -186,7 +142,7 @@ public class SubjectDao extends Dao {
         }
     }
 
-    public boolean delete(Subject subject) throws Exception {
+    public boolean delete2(Subject subject) throws Exception {
         String sql = "delete from subject where cd=? and school_cd=?";
         Connection connection = null;
         PreparedStatement stmt = null;

@@ -6,4 +6,4 @@
     <c:param name="scripts" value=""/>
     <c:param name="contentPage" value="test_list_student_content.jsp"/>
     <c:param name="showSidebar" value="true"/>
-</c:import>
+</c:import>1

@@ -1,11 +1,11 @@
 package bean;
 
-import java.io.Serializable;
-
-public class TestListStudent implements Serializable {
+public class TestListStudent {
     private String subjectName;
     private String subjectCd;
     private int num;
+    private String no;
+    private String name;
     private int point;
 
     public String getSubjectName() {
@@ -30,6 +30,22 @@ public class TestListStudent implements Serializable {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getPoint() {

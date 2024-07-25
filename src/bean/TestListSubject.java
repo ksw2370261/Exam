@@ -1,22 +1,23 @@
 package bean;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
-public class TestListSubject implements Serializable {
+public class TestListSubject {
     private int entYear;
     private String studentNo;
     private String studentName;
     private String classNum;
     private Map<Integer, Integer> points;
 
-    // コンストラクタ
+    // 新しいフィールドの追加
+    private String subjectCd;
+    private String subjectName;
+    private String no;
+    private int point;
+
     public TestListSubject() {
-        points = new HashMap<>();
     }
 
-    // getter and setter for entYear
     public int getEntYear() {
         return entYear;
     }
@@ -25,7 +26,6 @@ public class TestListSubject implements Serializable {
         this.entYear = entYear;
     }
 
-    // getter and setter for studentNo
     public String getStudentNo() {
         return studentNo;
     }
@@ -34,7 +34,6 @@ public class TestListSubject implements Serializable {
         this.studentNo = studentNo;
     }
 
-    // getter and setter for studentName
     public String getStudentName() {
         return studentName;
     }
@@ -43,7 +42,6 @@ public class TestListSubject implements Serializable {
         this.studentName = studentName;
     }
 
-    // getter and setter for classNum
     public String getClassNum() {
         return classNum;
     }
@@ -52,7 +50,6 @@ public class TestListSubject implements Serializable {
         this.classNum = classNum;
     }
 
-    // getter and setter for points
     public Map<Integer, Integer> getPoints() {
         return points;
     }
@@ -61,13 +58,44 @@ public class TestListSubject implements Serializable {
         this.points = points;
     }
 
-    // getPoint method
-    public Integer getPoint(int key) {
-        return points.get(key);
+    public String getPoint(int key) {
+        return points.getOrDefault(key, 0).toString();
     }
 
-    // putPoint method
     public void putPoint(int key, int value) {
         points.put(key, value);
+    }
+
+    // 新しいフィールドの getter と setter メソッド
+    public String getSubjectCd() {
+        return subjectCd;
+    }
+
+    public void setSubjectCd(String subjectCd) {
+        this.subjectCd = subjectCd;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 }

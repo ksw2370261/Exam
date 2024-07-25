@@ -1,15 +1,19 @@
 package scoremanager.main;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import bean.TestListStudent;
 import bean.TestListSubject;
-import dao.SchoolDao;
+import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListStudentDao;
 import dao.TestListSubjectDao;
@@ -19,60 +23,67 @@ public class TestListAction extends Action {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        // パラメータ取得
-        String studentNo = req.getParameter("student_no");
-        String entryYearStr = req.getParameter("entry_year");
-        String classNum = req.getParameter("class_num");
-        String subjectCd = req.getParameter("subject_cd");
-        String schoolCd = req.getParameter("school_cd");
+        HttpSession session = req.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("login");
 
-        // パラメータチェック
-        int entYear = 0;
-        if (entryYearStr != null && !entryYearStr.isEmpty()) {
-            try {
-                entYear = Integer.parseInt(entryYearStr);
-            } catch (NumberFormatException e) {
-                // エラー処理: 無効な入学年度の場合、エラーを設定するなど
-                req.setAttribute("error", "Invalid entry year.");
-                req.getRequestDispatcher("/error.jsp").forward(req, res);
-                return;
-            }
+        String entYearStr = req.getParameter("f1"); // 入力された入学年度
+        String classNum = req.getParameter("f2"); // 入力されたクラス番号
+        String subjectCd = req.getParameter("f3"); // 入力された科目コード
+        String studentNo = req.getParameter("f4"); // 入力された学生番号
+
+        int entYear = 0; // 入学年度
+
+        if (entYearStr != null && !entYearStr.isEmpty() && !entYearStr.equals("--------")) {
+            entYear = Integer.parseInt(entYearStr);
         }
 
-        // 学校と科目情報の取得
-        SubjectDao subjectDao = new SubjectDao();
-        SchoolDao schoolDao = new SchoolDao();
-        Subject subject = subjectDao.get(subjectCd, schoolCd);
-        School school = schoolDao.get(schoolCd);
+        TestListSubjectDao testListSubjectDao = new TestListSubjectDao(); // テストリスト科目Dao
+        TestListStudentDao testListStudentDao = new TestListStudentDao(); // テストリスト学生Dao
+        ClassNumDao classNumDao = new ClassNumDao(); // クラス番号Dao
+        SubjectDao subjectDao = new SubjectDao(); // 科目Dao
+        Map<String, String> errors = new HashMap<>(); // エラーメッセージ
 
-        // TestListStudentとTestListSubjectの設定
-        if ((studentNo != null && !studentNo.isEmpty()) || (entYear > 0 && classNum != null && subject != null && school != null)) {
-            setTestList(req, studentNo, entYear, classNum, subject, school);
+        // DBからデータ取得
+        List<String> classNumList = classNumDao.filter(teacher.getSchool_cd());
+        List<Subject> subjectList = subjectDao.filter(teacher.getSchool_cd());
+        List<Integer> yearList = new ArrayList<>(); // 入学年度リスト
+
+        // 入学年度のリストを生成するための仮のデータ (実際のデータはデータベースから取得)
+        for (int year = 2000; year <= 2024; year++) {
+            yearList.add(year);
         }
 
-        // 検索ボックスの初期値を設定
-        req.setAttribute("entryYear", entryYearStr);
-        req.setAttribute("classNum", classNum);
-        req.setAttribute("subjectCd", subjectCd);
-        req.setAttribute("schoolCd", schoolCd);
+        List<TestListSubject> testListSubjects = new ArrayList<>();
+        List<TestListStudent> testListStudents = new ArrayList<>();
 
-        // JSPへフォワード
+        if (entYear != 0 && classNum != null && !classNum.equals("--------") && subjectCd != null && !subjectCd.equals("--------")) {
+            // 入学年度、クラス番号、科目コードを指定
+            testListSubjects = testListSubjectDao.filter(entYear, classNum, subjectCd, teacher.getSchool_cd());
+            testListStudents = testListStudentDao.filter(subjectCd);
+        } else if (entYear != 0 && classNum != null && !classNum.equals("--------")) {
+            // 入学年度とクラス番号を指定
+            testListSubjects = testListSubjectDao.filter(entYear, classNum, "", teacher.getSchool_cd());
+            testListStudents = testListStudentDao.filter("");
+        } else if (entYear != 0) {
+            // 入学年度のみ指定
+            testListSubjects = testListSubjectDao.filter(entYear, "", "", teacher.getSchool_cd());
+            testListStudents = testListStudentDao.filter("");
+        } else {
+            errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
+            req.setAttribute("errors", errors);
+        }
+
+        req.setAttribute("years", yearList); // 入学年度のリストをリクエストに設定
+        req.setAttribute("classes", classNumList); // クラス番号のリストをリクエストに設定
+        req.setAttribute("subjects", subjectList); // 科目名のリストをリクエストに設定
+        req.setAttribute("students", testListStudents); // 学生情報リストをリクエストに設定
+
+        req.setAttribute("f1", entYear);
+        req.setAttribute("f2", classNum);
+        req.setAttribute("f3", subjectCd);
+        req.setAttribute("f4", studentNo);
+        req.setAttribute("testListSubjects", testListSubjects);
+
         req.getRequestDispatcher("test_list.jsp").forward(req, res);
-    }
-
-    private void setTestList(HttpServletRequest req, String studentNo, int entYear, String classNum, Subject subject, School school) throws Exception {
-        // TestListStudentの設定
-        if (studentNo != null && !studentNo.isEmpty()) {
-            TestListStudentDao testListStudentDao = new TestListStudentDao();
-            List<TestListStudent> testListStudents = testListStudentDao.filter(studentNo);
-            req.setAttribute("testListStudents", testListStudents);
-        }
-
-        // TestListSubjectの設定
-        if (entYear > 0 && classNum != null && subject != null && school != null) {
-            TestListSubjectDao testListSubjectDao = new TestListSubjectDao();
-            List<TestListSubject> testListSubjects = testListSubjectDao.filter(entYear, classNum, subject, school);
-            req.setAttribute("testListSubjects", testListSubjects);
-        }
     }
 }

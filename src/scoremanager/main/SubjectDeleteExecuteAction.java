@@ -22,7 +22,7 @@ public class SubjectDeleteExecuteAction extends Action {
         subject.setSchool_CD(schoolCd);
 
         // 削除処理を実行
-        boolean deleted = subjectDao.delete(subject);
+        boolean deleted = subjectDao.delete2(subject);
 
         if (deleted) {
             // 削除成功時の処理

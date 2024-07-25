@@ -1,8 +1,6 @@
 package bean;
 
-import java.io.Serializable;
-
-public class Student implements Serializable {
+public class Student {
     private String no;
     private String name;
     private int entYear;
@@ -56,5 +54,10 @@ public class Student implements Serializable {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public int getSchoolYear() {
+        // Implement the logic for school year calculation if needed
+        return 0; // Placeholder value
     }
 }
