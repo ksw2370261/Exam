@@ -3,17 +3,16 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>成績管理システム - 検索</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="testlist.css"> <!-- testlist.css を追加 -->
 </head>
-</head>
 <body>
     <div class="main-content">
-        <h2>成績参照</h2>
+        <%-- タイトルをリクエストから取得 --%>
+        <h2><c:out value="${title}" default="成績参照" /></h2>
 
         <!-- 科目情報検索フォーム -->
         <form id="subjectSearchForm" action="TestListSubjectExecuteAction" method="post" onsubmit="return validateSubjectSearch()">

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <title>成績管理システム - 結果</title>
-   
+    <%@ include file="test_list_content.jsp" %>
 </head>
 <body>
     <div class="container">
@@ -15,9 +15,9 @@
             <h2>検索結果</h2>
             
             <!-- 科目情報検索結果表示 -->
-            <c:if test="${not empty subjectResults}">
+            <c:if test="${not empty testListSubjects}">
                 <h3>科目情報検索結果</h3>
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>入学年度</th>
@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="result" items="${subjectResults}">
+                        <c:forEach var="result" items="${testListSubjects}">
                             <tr>
                                 <td>${result.entYear}</td>
                                 <td>${result.classNum}</td>
@@ -44,9 +44,9 @@
             </c:if>
             
             <!-- 学生情報検索結果表示 -->
-            <c:if test="${not empty studentResults}">
+            <c:if test="${not empty testListStudents}">
                 <h3>学生情報検索結果</h3>
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>科目名</th>
@@ -56,7 +56,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="result" items="${studentResults}">
+                        <c:forEach var="result" items="${testListStudents}">
                             <tr>
                                 <td>${result.subjectName}</td>
                                 <td>${result.subjectCode}</td>
