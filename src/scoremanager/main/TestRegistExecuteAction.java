@@ -48,6 +48,8 @@ public class TestRegistExecuteAction extends Action {
 
                 TestDao testDao = new TestDao();
                 List<Test> testList = new ArrayList<>();
+                boolean isValid = true;
+                StringBuilder errorMessages = new StringBuilder();
 
                 for (int i = 0; i < studentNos.length; i++) {
                     Test test = new Test();
@@ -72,24 +74,42 @@ public class TestRegistExecuteAction extends Action {
 
                     // 点数を設定
                     try {
-                        test.setPoint(Integer.parseInt(scores[i]));
+                        int score = Integer.parseInt(scores[i]);
+                        if (score < 0 || score > 100) {
+                            isValid = false;
+                            errorMessages.append("点数の範囲は0〜100である必要があります: ").append(scores[i]).append("<br>");
+                        } else {
+                            test.setPoint(score);
+                        }
                     } catch (NumberFormatException e) {
-                        throw new Exception("点数の形式が正しくありません: " + scores[i]);
+                        isValid = false;
+                        errorMessages.append("点数の形式が正しくありません: ").append(scores[i]).append("<br>");
                     }
 
                     testList.add(test);
                 }
 
-                boolean success = testDao.save(testList);
+                if (isValid) {
+                    boolean success = testDao.save(testList);
 
-                if (success) {
-                    request.setAttribute("message", "登録が完了しました");
+                    if (success) {
+                        request.setAttribute("message", "登録が完了しました");
+                        request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("errorMessage", "成績の保存に失敗しました。");
+                        request.getRequestDispatcher("test_regist.jsp").forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("errorMessage", "成績の保存に失敗しました。");
+                    // エラーメッセージをリクエスト属性に設定し、再度フォームに戻す
+                    request.setAttribute("errorMessage", errorMessages.toString());
+                    request.setAttribute("studentNos", studentNos); // 再設定することでフォームにデータを保持する
+                    request.setAttribute("subjectCds", subjectCds);
+                    request.setAttribute("schoolCds", schoolCds);
+                    request.setAttribute("classNums", classNums);
+                    request.setAttribute("scores", scores);
+                    request.getRequestDispatcher("test_regist.jsp").forward(request, response);
                 }
 
-                // 成績登録ページにフォワード
-                request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("errorMessage", "エラーが発生しました。再度お試しください。" + e.getMessage());

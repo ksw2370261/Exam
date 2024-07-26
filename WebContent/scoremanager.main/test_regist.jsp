@@ -157,8 +157,11 @@
             <label for="no">回数</label>
             <select id="no" name="no">
                 <option value="">---------</option>
-                <c:forEach var="i" begin="1" end="10">
-                    <option value="${i}" ${i == param.no ? 'selected' : ''}>${i}</option>
+                <c:forEach var="no" items="${noList}">
+                    <!-- 0を表示しない -->
+                    <c:if test="${no != 0}">
+                        <option value="${no}" ${no == param.no ? 'selected' : ''}>${no}</option>
+                    </c:if>
                 </c:forEach>
             </select>
         </div>
@@ -177,49 +180,51 @@
     </c:if>
 
     <!-- 検索結果の表示 -->
-    <h2>検索結果</h2>
-    <div class="search-results">
-        <c:choose>
-            <c:when test="${not empty testList}">
-                <form action="TestRegistExecute.action" method="post">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col">入学年度</th>
-                                <th scope="col">学生番号</th>
-                                <th scope="col">クラス</th>
-                                <th scope="col">氏名</th>
-                                <th scope="col">点数</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="test" items="${testList}">
+    <c:if test="${not empty param.entYear or not empty param.classNum or not empty param.subjectCd or not empty param.no}">
+        <h2>検索結果</h2>
+        <div class="search-results">
+            <c:choose>
+                <c:when test="${not empty testList}">
+                    <form action="TestRegistExecute.action" method="post">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td>${test.student.entYear}</td>
-                                    <td>${test.student.no}</td>
-                                    <td>${test.classNum}</td>
-                                    <td>${test.student.name}</td>
-                                    <td>
-                                        <input type="hidden" name="schoolCd" value="${test.school.cd}">
-                                        <input type="hidden" name="studentNo" value="${test.student.no}">
-                                        <input type="hidden" name="subjectCd" value="${test.subject.cd}">
-                                        <input type="hidden" name="classNum" value="${test.classNum}"> <!-- クラスを隠しフィールドとして追加 -->
-                                        <input type="number" name="score" value="${test.point}">
-                                    </td>
+                                    <th scope="col">入学年度</th>
+                                    <th scope="col">学生番号</th>
+                                    <th scope="col">クラス</th>
+                                    <th scope="col">氏名</th>
+                                    <th scope="col">点数</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <div class="form-group">
-                        <button type="submit">成績を登録</button>
-                    </div>
-                </form>
-            </c:when>
-            <c:otherwise>
-                <p>検索結果がありません。</p>
-            </c:otherwise>
-        </c:choose>
-    </div>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="test" items="${testList}">
+                                    <tr>
+                                        <td>${test.student.entYear}</td>
+                                        <td>${test.student.no}</td>
+                                        <td>${test.classNum}</td>
+                                        <td>${test.student.name}</td>
+                                        <td>
+                                            <input type="hidden" name="schoolCd" value="${test.school.cd}">
+                                            <input type="hidden" name="studentNo" value="${test.student.no}">
+                                            <input type="hidden" name="subjectCd" value="${test.subject.cd}">
+                                            <input type="hidden" name="classNum" value="${test.classNum}"> <!-- クラスを隠しフィールドとして追加 -->
+                                            <input type="number" name="score" value="${test.point}" min="0" max="100">
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <button type="submit">成績を登録</button>
+                        </div>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <p>検索結果がありません。</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </c:if>
 </div>
 </body>
 </html>

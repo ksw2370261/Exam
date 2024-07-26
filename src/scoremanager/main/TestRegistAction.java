@@ -69,6 +69,12 @@ public class TestRegistAction extends Action {
                 TestDao testDao = new TestDao();
                 List<Test> testList = testDao.filter(entYear, classNum, subject, no, school);
 
+                // ユニークな回数リストを作成
+                Set<Integer> noSet = testList.stream()
+                    .map(Test::getNo)
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+                List<Integer> noList = new ArrayList<>(noSet);
+
                 // デバッグ用ログ出力: testList の内容を表示
                 System.out.println("取得したテストデータ:");
                 for (Test test : testList) {
@@ -84,6 +90,7 @@ public class TestRegistAction extends Action {
                 request.setAttribute("subjectList", subjectList);
                 request.setAttribute("entYearList", entYearList);
                 request.setAttribute("classNumList", classNumList);
+                request.setAttribute("noList", noList); // ユニークな回数リストを追加
                 request.setAttribute("testList", testList);
 
                 // フォワードする先のJSPを指定します（例: test_regist.jsp）
