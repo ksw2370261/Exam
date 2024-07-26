@@ -1,5 +1,6 @@
 package bean;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TestListSubject {
@@ -7,16 +8,15 @@ public class TestListSubject {
     private String studentNo;
     private String studentName;
     private String classNum;
-    private Map<Integer, Integer> points;
-
-    // 新しいフィールドの追加
     private String subjectCd;
     private String subjectName;
-    private String no;
-    private int point;
+    private Map<Integer, Integer> points;
 
     public TestListSubject() {
+        points = new HashMap<>();  // pointsマップの初期化
     }
+
+    // 他のgetterおよびsetterメソッド
 
     public int getEntYear() {
         return entYear;
@@ -50,23 +50,6 @@ public class TestListSubject {
         this.classNum = classNum;
     }
 
-    public Map<Integer, Integer> getPoints() {
-        return points;
-    }
-
-    public void setPoints(Map<Integer, Integer> points) {
-        this.points = points;
-    }
-
-    public String getPoint(int key) {
-        return points.getOrDefault(key, 0).toString();
-    }
-
-    public void putPoint(int key, int value) {
-        points.put(key, value);
-    }
-
-    // 新しいフィールドの getter と setter メソッド
     public String getSubjectCd() {
         return subjectCd;
     }
@@ -83,19 +66,19 @@ public class TestListSubject {
         this.subjectName = subjectName;
     }
 
-    public String getNo() {
-        return no;
+    public Map<Integer, Integer> getPoints() {
+        return points;
     }
 
-    public void setNo(String no) {
-        this.no = no;
+    public void setPoints(Map<Integer, Integer> points) {
+        this.points = points;
     }
 
-    public int getPoint() {
-        return point;
+    public void putPoint(int key, int value) {
+        points.put(key, value);
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public int getPoint(int key) {
+        return points.getOrDefault(key, 0);
     }
 }
