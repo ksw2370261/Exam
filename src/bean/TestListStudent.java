@@ -8,6 +8,7 @@ public class TestListStudent {
     private String name;
     private int point;
 
+    // Getter and Setter methods
     public String getSubjectName() {
         return subjectName;
     }

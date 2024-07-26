@@ -11,22 +11,23 @@ import bean.TestListStudent;
 
 public class TestListStudentDao extends Dao {
 
-    public List<TestListStudent> filter(String subjectCd) throws Exception {
+    public List<TestListStudent> filter(String studentNo) throws Exception {
         List<TestListStudent> testListStudents = new ArrayList<>();
-        String sql = "SELECT st.no, st.name, t.point " +
-                     "FROM student st " +
-                     "JOIN test t ON st.no = t.student_no " +
-                     "WHERE t.subject_cd = ?";
+        String sql = "SELECT s.name AS subjectName, s.cd AS subjectCd, t.no AS num, t.point " +
+                     "FROM test t " +
+                     "JOIN subject s ON t.subject_cd = s.cd AND t.school_cd = s.school_cd " +
+                     "WHERE t.student_no = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, subjectCd);
+            stmt.setString(1, studentNo);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     TestListStudent testListStudent = new TestListStudent();
-                    testListStudent.setNo(rs.getString("no"));
-                    testListStudent.setName(rs.getString("name"));
+                    testListStudent.setSubjectName(rs.getString("subjectName"));
+                    testListStudent.setSubjectCd(rs.getString("subjectCd"));
+                    testListStudent.setNum(rs.getInt("num"));
                     testListStudent.setPoint(rs.getInt("point"));
                     testListStudents.add(testListStudent);
                 }

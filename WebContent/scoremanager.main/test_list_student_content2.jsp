@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <title>成績管理システム - 検索結果</title>
+    <title>得点管理システム</title>
 </head>
 <body>
     <div class="container">
         <div class="main-content">
-            <h2>成績一覧（科目）</h2>
+            <h2>成績一覧（学生）</h2>
+
             <!-- 科目情報検索フォーム -->
             <form id="subjectSearchForm" action="TestListSubjectExecute.action" method="post" onsubmit="return validateSubjectSearch()">
                 <table class="table">
@@ -74,34 +75,30 @@
                 </table>
             </form>
 
-            <!-- 科目情報検索結果表示 -->
-            <c:if test="${not empty testListSubjects}">
-                <div>科目 : ${testListSubjects[0].subjectName}</div>
+            <!-- 学生情報検索結果表示 -->
+            <c:if test="${not empty students}">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>入学年度</th>
-                            <th>クラス</th>
-                            <th>学生番号</th>
-                            <th>学生名</th>
-                            <th>第1テスト点数</th>
-                            <th>第2テスト点数</th>
+                            <th>科目名</th>
+                            <th>科目コード</th>
+                            <th>テスト回数</th>
+                            <th>点数</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="result" items="${testListSubjects}">
+                        <c:forEach var="student" items="${students}">
                             <tr>
-                                <td>${result.entYear}</td>
-                                <td>${result.classNum}</td>
-                                <td>${result.studentNo}</td>
-                                <td>${result.studentName}</td>
-                                <td>${result.getPoint(1)}</td>
-                                <td>${result.getPoint(2)}</td>
+                                <td>${student.subjectName}</td>
+                                <td>${student.subjectCd}</td>
+                                <td>${student.num}</td>
+                                <td>${student.point}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </c:if>
+
         </div>
     </div>
     <script>
