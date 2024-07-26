@@ -181,28 +181,39 @@
     <div class="search-results">
         <c:choose>
             <c:when test="${not empty testList}">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">入学年度</th>
-                            <th scope="col">学生番号</th>
-                            <th scope="col">クラス</th>
-                            <th scope="col">氏名</th>
-                            <th scope="col">点数</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="test" items="${testList}">
+                <form action="TestRegistExecute.action" method="post">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>${test.student.entYear}</td>
-                                <td>${test.student.no}</td>
-                                <td>${test.classNum}</td>
-                                <td>${test.student.name}</td>
-                                <td>${test.point}</td>
+                                <th scope="col">入学年度</th>
+                                <th scope="col">学生番号</th>
+                                <th scope="col">クラス</th>
+                                <th scope="col">氏名</th>
+                                <th scope="col">点数</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="test" items="${testList}">
+                                <tr>
+                                    <td>${test.student.entYear}</td>
+                                    <td>${test.student.no}</td>
+                                    <td>${test.classNum}</td>
+                                    <td>${test.student.name}</td>
+                                    <td>
+                                        <input type="hidden" name="schoolCd" value="${test.school.cd}">
+                                        <input type="hidden" name="studentNo" value="${test.student.no}">
+                                        <input type="hidden" name="subjectCd" value="${test.subject.cd}">
+                                        <input type="hidden" name="classNum" value="${test.classNum}"> <!-- クラスを隠しフィールドとして追加 -->
+                                        <input type="number" name="score" value="${test.point}">
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <button type="submit">成績を登録</button>
+                    </div>
+                </form>
             </c:when>
             <c:otherwise>
                 <p>検索結果がありません。</p>
