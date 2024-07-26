@@ -99,7 +99,9 @@ public class TestDao extends Dao {
             connection.setAutoCommit(false);
             try {
                 for (Test test : list) {
-                    save(test, connection);
+                    if (!save(test, connection)) {
+                        throw new SQLException("テストの保存中にエラーが発生しました");
+                    }
                 }
                 connection.commit();
                 return true;
@@ -111,19 +113,52 @@ public class TestDao extends Dao {
     }
 
     public boolean save(Test test, Connection connection) throws SQLException {
-        String sql = "INSERT INTO test (student_no, subject_cd, school_cd, no, point, class_num) "
-                   + "VALUES (?, ?, ?, ?, ?, ?) "
-                   + "ON DUPLICATE KEY UPDATE point = VALUES(point), class_num = VALUES(class_num)";
+        if (test == null) {
+            throw new IllegalArgumentException("Test object cannot be null");
+        }
+        if (test.getStudent() == null) {
+            throw new IllegalArgumentException("Student in Test object cannot be null");
+        }
+        if (test.getSubject() == null) {
+            throw new IllegalArgumentException("Subject in Test object cannot be null");
+        }
+        if (test.getSchool() == null) {
+            throw new IllegalArgumentException("School in Test object cannot be null");
+        }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, test.getStudent().getNo());
-            statement.setString(2, test.getSubject().getCd());
-            statement.setString(3, test.getSchool().getCd());
-            statement.setInt(4, test.getNo());
-            statement.setInt(5, test.getPoint());
-            statement.setString(6, test.getClassNum());
-
-            return statement.executeUpdate() > 0;
+        String checkSql = "SELECT COUNT(*) FROM test WHERE student_no = ? AND subject_cd = ? AND school_cd = ? AND no = ?";
+        try (PreparedStatement checkStatement = connection.prepareStatement(checkSql)) {
+            checkStatement.setString(1, test.getStudent().getNo());
+            checkStatement.setString(2, test.getSubject().getCd());
+            checkStatement.setString(3, test.getSchool().getCd());
+            checkStatement.setInt(4, test.getNo());
+            try (ResultSet rs = checkStatement.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // レコードが存在する場合は更新
+                    String updateSql = "UPDATE test SET point = ?, class_num = ? WHERE student_no = ? AND subject_cd = ? AND school_cd = ? AND no = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                        updateStatement.setInt(1, test.getPoint());
+                        updateStatement.setString(2, test.getClassNum());
+                        updateStatement.setString(3, test.getStudent().getNo());
+                        updateStatement.setString(4, test.getSubject().getCd());
+                        updateStatement.setString(5, test.getSchool().getCd());
+                        updateStatement.setInt(6, test.getNo());
+                        return updateStatement.executeUpdate() > 0;
+                    }
+                } else {
+                    // レコードが存在しない場合は挿入
+                    String insertSql = "INSERT INTO test (student_no, subject_cd, school_cd, no, point, class_num) VALUES (?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
+                        insertStatement.setString(1, test.getStudent().getNo());
+                        insertStatement.setString(2, test.getSubject().getCd());
+                        insertStatement.setString(3, test.getSchool().getCd());
+                        insertStatement.setInt(4, test.getNo());
+                        insertStatement.setInt(5, test.getPoint());
+                        insertStatement.setString(6, test.getClassNum());
+                        return insertStatement.executeUpdate() > 0;
+                    }
+                }
+            }
         }
     }
 
@@ -132,7 +167,9 @@ public class TestDao extends Dao {
             connection.setAutoCommit(false);
             try {
                 for (Test test : list) {
-                    delete(test, connection);
+                    if (!delete(test, connection)) {
+                        throw new SQLException("テストの削除中にエラーが発生しました");
+                    }
                 }
                 connection.commit();
                 return true;
@@ -160,7 +197,7 @@ public class TestDao extends Dao {
         // Create and set Student object
         Student student = new Student();
         student.setNo(resultSet.getString("student_no"));
-        student.setName(resultSet.getString("name")); // 修正: "name" から "student_name" へ変更
+        student.setName(resultSet.getString("name")); // assuming column name
         student.setEntYear(resultSet.getInt("ent_year"));
         student.setClassNum(resultSet.getString("class_num"));
         student.setAttend(resultSet.getBoolean("is_attend"));
@@ -170,13 +207,13 @@ public class TestDao extends Dao {
         // Create and set Subject object
         Subject subject = new Subject();
         subject.setCd(resultSet.getString("subject_cd"));
-        subject.setName(resultSet.getString("name")); // 修正: "name" から "subject_name" へ変更
+        subject.setName(resultSet.getString("name")); // assuming column name
         test.setSubject(subject);
 
         // Create and set School object
         School school = new School();
         school.setCd(resultSet.getString("school_cd"));
-        school.setName(resultSet.getString("name"));
+        school.setName(resultSet.getString("name")); // assuming column name
         test.setSchool(school);
 
         // Set other Test properties
