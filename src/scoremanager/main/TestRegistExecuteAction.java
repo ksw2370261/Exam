@@ -27,30 +27,22 @@ public class TestRegistExecuteAction extends Action {
                 String[] studentNos = request.getParameterValues("studentNo");
                 String[] subjectCds = request.getParameterValues("subjectCd");
                 String[] schoolCds = request.getParameterValues("schoolCd");
+                String[] classNums = request.getParameterValues("classNum"); // クラス情報を取得
                 String[] scores = request.getParameterValues("score");
-                String entYear = request.getParameter("entYear");
-                String classNum = request.getParameter("classNum");
-                String no = request.getParameter("no");
 
                 // パラメータのチェック
-                if (entYear == null || classNum == null || no == null) {
-                    request.setAttribute("errorMessage", "入学年度とクラスと科目と回数を入力してください。");
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                    return;
-                }
-
-                // パラメータのチェック
-                if (studentNos == null || subjectCds == null || scores == null || schoolCds == null) {
-                    StringBuilder missingParams = new StringBuilder("不足しているパラメータ: ");
-                    if (studentNos == null) missingParams.append("studentNos ");
-                    if (subjectCds == null) missingParams.append("subjectCds ");
-                    if (schoolCds == null) missingParams.append("schoolCds ");
-                    if (scores == null) missingParams.append("scores ");
-                    throw new Exception(missingParams.toString().trim());
+                if (studentNos == null || subjectCds == null || scores == null || schoolCds == null || classNums == null) {
+                    String missingParams = "不足しているパラメータ: ";
+                    if (studentNos == null) missingParams += "studentNos ";
+                    if (subjectCds == null) missingParams += "subjectCds ";
+                    if (schoolCds == null) missingParams += "schoolCds ";
+                    if (classNums == null) missingParams += "classNums ";
+                    if (scores == null) missingParams += "scores ";
+                    throw new Exception(missingParams);
                 }
 
                 // パラメータの数が一致しているかチェック
-                if (studentNos.length != subjectCds.length || subjectCds.length != schoolCds.length || schoolCds.length != scores.length) {
+                if (studentNos.length != subjectCds.length || subjectCds.length != schoolCds.length || schoolCds.length != scores.length || scores.length != classNums.length) {
                     throw new Exception("パラメータの数が一致しません。");
                 }
 
@@ -75,6 +67,9 @@ public class TestRegistExecuteAction extends Action {
                     school.setCd(schoolCds[i]);
                     test.setSchool(school);
 
+                    // クラス情報を設定
+                    test.setClassNum(classNums[i]); // クラス情報を設定
+
                     // 点数を設定
                     try {
                         test.setPoint(Integer.parseInt(scores[i]));
@@ -88,12 +83,13 @@ public class TestRegistExecuteAction extends Action {
                 boolean success = testDao.save(testList);
 
                 if (success) {
-                    request.setAttribute("message", "成績が正常に保存されました。");
-                    request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
+                    request.setAttribute("message", "登録が完了しました");
                 } else {
                     request.setAttribute("errorMessage", "成績の保存に失敗しました。");
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
+
+                // 成績登録ページにフォワード
+                request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("errorMessage", "エラーが発生しました。再度お試しください。" + e.getMessage());
